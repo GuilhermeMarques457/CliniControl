@@ -1,0 +1,37 @@
+﻿@model List<RequestedPatientResponse>
+
+@{
+    await Html.RenderPartialAsync("_ShowSuccessError");
+}
+
+@if (Model != null)
+{
+    <section class="requested-patient-container">
+        <h2 class="secondary-heading title-decoration">Pacientes para entrar em contato</h2>
+        <div class="flex flex-column gap-sm">
+            @foreach (RequestedPatientResponse requestedPatientResponse in Model)
+            {
+                <div class="requested-patient-box flex flex-align-center flex-spaced mg-tp-bg">
+                    <div class="flex flex-align-center gap-md w-40">
+                        <p class="flex flex-align-center gap-sm w-100"><i class="ph ph-user requested-icon"></i> @requestedPatientResponse.PatientName</p>
+                        <p class="flex flex-align-center gap-sm w-100"><i class="ph ph-phone requested-icon"></i> @requestedPatientResponse.PhoneNumber</p>
+                    </div>
+                    <div>
+                        <a target="_blank" href="https://web.whatsapp.com/send?phone=@requestedPatientResponse.PhoneNumber" class="btn-send-message btn-go-whatssap flex flex-align-center gap-sm"><i class="ph ph-chat-text appointment-icon"></i> Enviar Mensagem</a>
+                        <form asp-action="ContactedPatient" asp-controller="Patient" method="post" class="form-contact" style="display: none;">
+                            <input value="@requestedPatientResponse.ID" name="PatientID" class="hidden">
+                            <div class="flex gap-sm flex-align-center">
+                                <p class="commom-text mg-tp-sm">Entrou em contato?</p>
+                                <button type="submit" class="btn-success btn-option mg-lf-bg">Sim</button>
+                                <button type="button" class="btn-did-not-contacted btn-warning-secondary btn-option">Não</button>
+                            </div>
+                           
+                        </form>
+                    </div>
+                   
+                </div>
+            }
+        </div>
+
+    </section>
+}

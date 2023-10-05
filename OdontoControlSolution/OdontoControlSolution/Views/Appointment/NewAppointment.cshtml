@@ -1,0 +1,125 @@
+﻿@model AppointmentAddRequest
+
+<section class="form-section">
+    <form asp-action="NewAppointment" asp-controller="Appointment" asp-route-PatientOrDentistID="@ViewBag.PatientOrDentistID" method="post" class="form-box">
+        <div class="flex flex-spaced flex-align-center">
+            <h2 class="form-heading title-decoration">Nova consulta</h2>
+            <i class="ph ph-tooth form-heading"></i>
+        </div>
+        @if (ViewBag.PatientName != null)
+        {
+            <div class="appointment-text-box">
+                <p>Essa consulta sera agendada para o paciente <b>@ViewBag.PatientName</b></p>
+            </div>
+            
+            <input type="hidden" value="@ViewBag.PatientID" name="PatientID" />
+        }
+
+        @if (ViewBag.DentistName != null)
+        {
+            <div class="appointment-text-box">
+                <p>Essa consulta sera agendada para o dentista <b>@ViewBag.DentistName</b></p>
+            </div>
+           
+            <input type="hidden" value="@ViewBag.DentistID" id="DentistID" name="DentistID" />
+            
+        }
+        
+        <div class="form-inputs-box">
+            @if (ViewBag.Dentists != null)
+            {
+                <div class="input-box">
+                    <i class="ph ph-tooth input-icon"></i>
+                    <label class="form-label" asp-for="DentistID">Dentista</label>
+                    <select asp-for="DentistID" asp-items="@ViewBag.Dentists" class="combo-box-input" id="DentistIdInput">
+                        <option value="">Por favor selecione um dentista</option>
+                    </select>
+                    <span class="input-decoration"></span>
+                </div>
+                <div class="input-validation-message-box">
+                    <span asp-validation-for="DentistID" class="validate-message"></span>
+                </div>
+            }
+
+            @if (ViewBag.Patients != null)
+            {
+                <div class="input-box">
+                    <i class="ph ph-user input-icon"></i>
+                    <label class="form-label" asp-for="PatientID">Paciente</label>
+                    <select asp-for="PatientID" asp-items="@ViewBag.Patients" class="combo-box-input">
+                        <option value="">Por favor selecione um paciente</option>
+                    </select>
+                    <span class="input-decoration"></span>
+                </div>
+                <div class="input-validation-message-box">
+                    <span asp-validation-for="PatientID" class="validate-message"></span>
+                </div>
+            }
+            <div class="input-box">
+                <i class="ph ph-calendar input-icon"></i>
+                <label class="form-label" asp-for="AppointmentTime">Data da consulta</label>
+                <input class="form-input" asp-for="AppointmentTime" id="AppointmentDay" />
+
+                <span class="input-decoration"></span>
+            </div>
+            <div class="input-validation-message-box">
+                <span asp-validation-for="AppointmentTime" class="validate-message"></span>
+            </div>
+            <div class="input-box-duo">
+                <div class="input-box">
+                    <i class="ph ph-sign-in input-icon-box-duo"></i>
+
+                    <label class="form-label" asp-for="StartTime">Entrada</label>
+                    <select asp-for="StartTime" class="combo-box-input" id="StartTimeInput">
+                        <option value="">Hora inicial</option>
+                    </select>
+
+                    <span class="input-decoration-box-duo"></span>
+                    <div class="input-validation-message-box">
+                        <span asp-validation-for="StartTime" class="validate-message"></span>
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <i class="ph ph-sign-out input-icon-box-duo"></i>
+
+                    <label class="form-label" asp-for="EndTime">Saída</label>
+                    <select asp-for="EndTime" class="combo-box-input" id="EndTimeInput">
+                        <option value="">Hora final</option>
+                    </select>
+
+                    <span class="input-decoration-box-duo"></span>
+                    <div class="input-validation-message-box">
+                        <span asp-validation-for="EndTime" class="validate-message"></span>
+                    </div>
+                </div>
+            </div>
+           
+           
+            <div class="input-box">
+                <i class="ph ph-stethoscope input-icon"></i>
+                <label class="form-label" asp-for="ProcedureType">Procedimento</label>
+                <select asp-for="ProcedureType" asp-items="@ViewBag.Procedures" class="combo-box-input">
+                    <option value="">Por favor selecione um procediemento</option>
+                </select>
+                <span class="input-decoration"></span>
+            </div>
+            <div class="input-validation-message-box">
+                <span asp-validation-for="ProcedureType" class="validate-message"></span>
+            </div>
+
+            <div class="buttons-box">
+                
+                <button class="btn-form btn-send">Agendar <i class="ph ph-calendar-check"></i></button>
+                <button class="btn-form btn-reset" type="reset">Limpar <i class="ph ph-broom"></i></button>
+            </div>
+        </div>
+    </form>
+</section>
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" asp-fallback-test="window.jQuery" asp-fallback-src="~/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.4/jquery.validate.min.js" asp-fallback-test="window.jQuery.validator" asp-fallback-src="~/jquery.validate.min.js" integrity="sha512-FOhq9HThdn7ltbK8abmGn60A/EMtEzIzv1rvuh+DqzJtSGq8BRdEN0U+j0iKEIffiw/yEtVuladk6rsG4X6Uqg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" asp-fallback-test="window.jQuery.validator.unobtrusive" asp-fallback-src="~/jquery.validate.unobtrusive.min" integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}
+

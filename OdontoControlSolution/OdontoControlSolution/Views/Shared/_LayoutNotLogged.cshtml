@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>@ViewBag.Title</title>
+        <script src="https://unpkg.com/%40phosphor-icons/web"></script>
+        <link href="~/css/general.css" rel="stylesheet" type="text/css" />
+        <link href="~/css/style.css" rel="stylesheet" type="text/css" />
+        <link href="~/css/helpers.css" rel="stylesheet" type="text/css" />
+        <link href="~/css/components.css" rel="stylesheet" type="text/css" />
+
+        @if (ViewBag.CssFiles != null)
+        {
+            foreach (var cssFile in ViewBag.CssFiles)
+            {
+                <link rel="stylesheet" href="@Url.Content($"~/css/{cssFile}")" />
+            }
+        }
+    </head>
+    <body>
+        <div class="container">
+            <header class="header flex flex-spaced flex-align-center">
+                <h1 class="primary-heading">Odonto<i class="ph ph-game-controller"></i></h1>
+                <nav>
+                    <ul class="list nav-list">
+                        <li class="list-item nav-link">
+                            <a class="item-with-icon" asp-controller="Account" asp-action="Login">Entrar <i class="ph ph-sign-in"></i></a>
+                        </li>
+                        <li class="list-item nav-link">
+                            <a class="item-with-icon" asp-controller="Account" asp-action="Register">Cadastrar-se <i class="ph ph-user-plus"></i></a>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
+       
+            <main>
+                @RenderBody()
+            </main>
+        </div>
+
+        @RenderSection("scripts", required: false)
+    </body>
+</html>

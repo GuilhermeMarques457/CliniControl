@@ -1,0 +1,29 @@
+﻿@if (ViewBag.CurrentSortBy == ViewBag.ColumnName
+        && ViewBag.CurrentSortOrder == SortOrderOptions.ASC.ToString())
+{
+    <th class="table-head-column">
+        <a class="table-head-item" href="~/Dentist/ListDentists?searchBy=@(ViewBag.CurrentSearchBy)&searchString=@(ViewBag.CurrentSearchString)&sortBy=@(ViewBag.ColumnName)&sortOrderOptions=DESC">
+            @(ViewBag.DisplayName)
+            <i class="ph ph-sort-ascending"></i>
+        </a>
+    </th>
+}
+else if (ViewBag.CurrentSortBy == ViewBag.ColumnName
+            && ViewBag.CurrentSortOrder == SortOrderOptions.DESC.ToString())
+{
+    <th class="table-head-column">
+        <a class="table-head-item" href="~/Dentist/ListDentists?searchBy=@(ViewBag.CurrentSearchBy)&searchString=@(ViewBag.CurrentSearchString)&sortBy=@(ViewBag.ColumnName)&sortOrderOptions=ASC">
+            @(ViewBag.DisplayName)
+            <i class="ph ph-sort-descending"></i>
+           
+        </a>
+    </th>
+}
+else
+{
+    <th class="table-head-column">
+        <a class="table-head-item" href="~/Dentist/ListDentists?searchBy=@(ViewBag.CurrentSearchBy)&searchString=@(ViewBag.CurrentSearchString)&sortBy=@(ViewBag.ColumnName)&sortOrderOptions=ASC">
+            @(ViewBag.DisplayName)
+        </a>
+    </th>
+}

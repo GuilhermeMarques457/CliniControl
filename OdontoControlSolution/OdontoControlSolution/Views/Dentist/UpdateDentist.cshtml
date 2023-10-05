@@ -1,0 +1,68 @@
+﻿@model DentistUpdateRequest
+
+<section class="form-section">
+    <form asp-action="UpdateDentist" asp-controller="Dentist" method="post" class="form-box">
+        <input name="ID" value="@Model.ID" class="hidden"/>
+        <div class="flex flex-spaced flex-align-center">
+            <h2 class="form-heading title-decoration">Atualizar</h2>
+            <i class="ph ph-tooth form-heading"></i>
+        </div>
+        <div class="form-inputs-box">
+            <div class="input-box">
+                <i class="ph ph-user input-icon"></i>
+                <label class="form-label" asp-for="DentistName">Nome do dentista</label>
+                <input class="form-input" asp-for="DentistName" placeholder="Dr. Aurelio Cunha" />
+
+                <span class="input-decoration"></span>
+            </div>
+            <div class="input-validation-message-box">
+                <span asp-validation-for="DentistName" class="validate-message"></span>
+            </div>
+            <div class="input-box">
+                <i class="ph ph-phone input-icon"></i>
+                <label class="form-label" asp-for="PhoneNumber">Telefone</label>
+                <input class="form-input" asp-for="PhoneNumber" placeholder="(18) 99999-9999" />
+                <span class="input-decoration"></span>
+            </div>
+            <div class="input-validation-message-box">
+                <span asp-validation-for="PhoneNumber" class="validate-message"></span>
+            </div>
+            <div class="input-box-duo">
+                <div class="input-box">
+                    <i class="ph ph-sign-in input-icon-box-duo"></i>
+                    <label class="form-label" asp-for="StartTime">Entrada</label>
+                    <input class="form-input" asp-for="StartTime" placeholder="07:00" />
+                    <span class="input-decoration-box-duo"></span>
+                    <div class="input-validation-message-box">
+                        <span asp-validation-for="StartTime" class="validate-message"></span>
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <i class="ph ph-sign-out input-icon-box-duo"></i>
+
+                    <label class="form-label" asp-for="EndTime">Saída</label>
+                    <input class="form-input" asp-for="EndTime" placeholder="18:00" />
+
+                    <span class="input-decoration-box-duo"></span>
+                    <div class="input-validation-message-box">
+                        <span asp-validation-for="EndTime" class="validate-message"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons-box">
+                <button class="btn-form btn-send">Salvar <i class="ph ph-floppy-disk"></i></button>
+                <button class="btn-form btn-reset" type="reset">Limpar <i class="ph ph-broom"></i></button>
+            </div>
+        </div>
+    </form>
+</section>
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" asp-fallback-test="window.jQuery" asp-fallback-src="~/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.4/jquery.validate.min.js" asp-fallback-test="window.jQuery.validator" asp-fallback-src="~/jquery.validate.min.js" integrity="sha512-FOhq9HThdn7ltbK8abmGn60A/EMtEzIzv1rvuh+DqzJtSGq8BRdEN0U+j0iKEIffiw/yEtVuladk6rsG4X6Uqg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" asp-fallback-test="window.jQuery.validator.unobtrusive" asp-fallback-src="~/jquery.validate.unobtrusive.min" integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}
+
+

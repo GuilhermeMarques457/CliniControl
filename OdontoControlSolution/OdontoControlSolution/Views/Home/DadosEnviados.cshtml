@@ -1,0 +1,47 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body{
+            font-family: sans-serif;
+        }
+
+        div {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 55px;
+        }
+
+        img{
+            display: block;
+            width: 30%;
+            margin: 0 auto
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        a{
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <a href="@ViewBag.PreviousPage">&larr; Voltar para pagina Anterior</a>
+        <img src="/imgs/data-sent.svg" />
+        <h1>Dados enviados, o gerenciador logo entrará em contato</h1>
+        <h2>Em caso de urgência contate o gerenciador diretamente</h2>
+    </div>
+</body>
+</html>
+

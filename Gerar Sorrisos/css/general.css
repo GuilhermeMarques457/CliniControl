@@ -1,0 +1,244 @@
+:root {
+  --primary-color-darker: #263c48;
+  --primary-color: #6096b4;
+  --primary-color-opacity: rgb(96, 150, 180, 0.2);
+  --primary-color-lighter: #bdd3e0;
+  --primary-color-even-lighter: #dfeaf0;
+  --white-color: #f9fbfc;
+  --dark-color: #0a0f12;
+  --dark-color-lighter: #6c6f71;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+*::selection {
+  background-color: var(--primary-color-darker);
+  color: var(--white-color);
+}
+
+html {
+  font-size: 62.5%;
+  overflow-x: hidden;
+  scroll-behavior: smooth; /*Does work on opera gx*/
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  line-height: 1;
+  font-weight: 500;
+  color: #444;
+}
+
+.main {
+  width: 100vw !important;
+}
+
+/***************************/
+/* General Reusable Components */
+/***************************/
+
+.container {
+  /* 1140px */
+  max-width: 120rem;
+  padding: 0 3.2rem;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  row-gap: 9.6rem;
+  column-gap: 6.4rem;
+}
+
+.grid:not(:last-child) {
+  margin-bottom: 9.6rem;
+}
+
+.grid--2--cols {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid--3--cols {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid--4--cols {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid--5--cols {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.primary-heading,
+.secondary-heading,
+.heading-tertiary {
+  color: #333;
+  font-weight: 700;
+  letter-spacing: -0.7px;
+}
+
+.primary-heading {
+  font-size: 5.4rem;
+  line-height: 1.05;
+  margin-bottom: 3.2rem;
+}
+
+.secondary-heading {
+  font-size: 4.4rem;
+  line-height: 1.2;
+  margin-bottom: 9.6rem;
+}
+
+.heading-tertiary {
+  font-size: 3rem;
+  line-height: 1.2;
+  margin-bottom: 3rem;
+}
+
+.sub-heading {
+  display: block;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: var(--primary-color-darker);
+  letter-spacing: 0.75px;
+}
+
+.btn,
+.btn:link,
+.btn:visited {
+  font-size: 2rem;
+  transition: all 0.3s;
+  text-decoration: none;
+  display: inline-block;
+  padding: 1.6rem 3.2rem;
+  border-radius: 5px;
+  font-weight: 600;
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-full:link,
+.btn-full:visited {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.btn-full:hover,
+.btn-full:active {
+  background-color: var(--primary-color-darker);
+  color: #fff;
+}
+
+.btn-outline:link,
+.btn-outline:visited {
+  background-color: #fff;
+  color: #555;
+}
+
+.btn-outline:hover,
+.btn-outline:active {
+  background-color: var(--primary-color-even-lighter);
+  color: #555;
+  /*border: var(--primary-color) 3px solid;  the content jumpss aaaa  */
+  /* Trick to make the border to an element aaaa*/
+  box-shadow: inset 0 0 0 3px #fff;
+}
+
+.btn-form {
+  grid-column: 1/3;
+  background-color: var(--primary-color-darker);
+  color: #fdf2e9;
+  align-self: flex-end;
+  padding: 1.2rem 3.2rem;
+  margin-top: 1.8rem;
+}
+
+.btn-form:hover {
+  background-color: #fdf2e9;
+  color: var(--primary-color-darker);
+}
+
+.link:link,
+.link:visited {
+  text-decoration: none;
+  color: var(--primary-color);
+  font-weight: 600;
+  border-bottom: 1px solid currentColor;
+  display: inline-block;
+  padding-bottom: 2px;
+  transition: all 0.3s;
+}
+
+.link:hover,
+.link:active {
+  color: var(--primary-color-darker);
+  border-bottom: 1px solid transparent;
+}
+
+.list {
+  margin-top: 3.6rem;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  font-size: 1.8rem;
+  gap: 1.6rem;
+  line-height: 1.2;
+}
+
+.list-icon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--primary-color);
+}
+
+*:focus {
+  outline: none;
+  /* outline: 4px solid #333;
+  outline-offset: 8px; */
+
+  box-shadow: 0 0 0 0.8rem rgb(230, 126, 34, 0.5);
+}
+
+/* Helper classes */
+
+.margin-right-sm {
+  margin-right: 1.6rem !important;
+}
+
+.margin-bottom-md {
+  margin-bottom: 4.8rem !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+strong {
+  font-weight: 600;
+}
+
+.hidden {
+  display: none;
+}
+
+.opacity-transition {
+  opacity: 100 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+  transform: translateX(0) !important;
+}

@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <script src="https://unpkg.com/%40phosphor-icons/web"></script>
+    <link href="~/css/general.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/helpers.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/components.css" rel="stylesheet" type="text/css" />
+    <script src="~/script/closeItem.js" defer></script>
+    @if (ViewBag.CssFiles != null)
+    {
+        foreach (var cssFile in ViewBag.CssFiles)
+        {
+            <link rel="stylesheet" href="@Url.Content($"~/css/{cssFile}")" />
+        }
+    }
+    @if (ViewBag.JsFiles != null)
+    {
+        foreach (var jsFile in ViewBag.JsFiles)
+        {
+            <script src="@Url.Content($"~/script/{jsFile}")" defer></script>
+        }
+    }
+</head>
+<body>
+    <div class="container">
+        <header class="header flex flex-spaced flex-align-center">
+            <h1 class="primary-heading">Odonto<i class="ph ph-game-controller"></i></h1>
+            <nav class="nav-container">
+                <ul class="list nav-list">
+                    <li class="list-item nav-link">
+                        <a class="item-with-icon" asp-controller="Home" asp-area="Admin" asp-action="Index">Painel <i class="ph ph-key"></i></a>
+                    </li>
+                    <li class="list-item nav-link">
+                        <a class="item-with-icon btn-full" asp-area="" asp-controller="Account" asp-action="Logout">Sair <i class="ph ph-sign-out"></i></a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            @RenderBody()
+        </main>
+    </div>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+

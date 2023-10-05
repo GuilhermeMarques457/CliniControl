@@ -1,0 +1,214 @@
+﻿@model List<AppointmentResponse>
+
+@if (ViewBag.Success != null)
+{
+    <div class="status-message-box">
+        <div class="status-message mg-tp-md flex flex-align-center gap-sm">
+            <i class="ph ph-x closable-item"></i>
+            <p class="text-green success-message">@ViewBag.Success</p>
+            <a asp-controller="Appointment" class="btn-success-secondary btn-option" asp-action="UpdateFinishedAppointment" asp-route-id="@ViewBag.AppointmentID">Ver mais detalhes</a>
+        </div>
+    </div>
+
+}
+else if (ViewBag.Errors != null)
+{
+    <div class="status-message-box">
+        <div class="status-message mg-tp-md">
+            <i class="ph ph-x closable-item"></i>
+            <p class="mg-tp-md text-red error-message">@ViewBag.Errors</p>
+        </div>
+    </div>
+}
+
+<form asp-action="Daily" asp-controller="Home" method="get">
+    <div class="search-box">
+        <input value="@ViewBag.CurrentSearchString" id="Search" name="searchString" class="input-search" placeholder="Pesquisar" />
+        <div class="input-box input-date-appointments">
+            <i class="ph ph-calendar input-icon"></i>
+            <label class="form-label element-hidden" for="dateOfAppointments">Data da consulta</label>
+            <input class="form-input" name="dateOfAppointments" id="AppointmentDay" type="date" value="@ViewBag.SelectedDate?.ToString("yyyy-MM-dd")" />
+            <span class="input-decoration"></span>
+        </div>
+        <a class="btn btn-full btn-add-new" asp-action="NewAppointment" asp-controller="Appointment" asp-route-PatientOrDentistID="0">Novo</a>
+        <select asp-items="@ViewBag.SearchBy" name="searchBy" class="combo-search-by">
+            @foreach (var field in ViewBag.SearchFields)
+            {
+                if (field.Key == ViewBag.CurrentSearchBy)
+                {
+                    <option selected="selected" value="@field.Key">@field.Value</option>
+                }
+                else
+                {
+                    <option value="@field.Key">@field.Value</option>
+                }
+
+            }
+        </select>
+        <button class="btn-search"><i class="ph ph-magnifying-glass"></i></button>
+    </div>
+</form>
+
+@if (Model.Count() > 0)
+{
+    <div class="appointments-list-container grid grid--3--cols gap-bg">
+        @foreach (AppointmentResponse appointment in Model)
+        {
+            DateTime? dateStartTheAppoitment = appointment.AppointmentTime;
+
+            if (appointment.StartTime != null)
+                dateStartTheAppoitment = dateStartTheAppoitment!.Value.Add((TimeSpan)appointment.StartTime);
+
+            DateTime? dateEndTheAppoitment = appointment.AppointmentTime;
+
+            if (appointment.EndTime != null)
+                dateEndTheAppoitment = dateEndTheAppoitment!.Value.Add((TimeSpan)appointment.EndTime);
+
+            @if (appointment.Status == AppointmentStatusOptions.Pago.ToString())
+            {
+
+            }
+            else if (dateStartTheAppoitment < DateTime.Now && dateEndTheAppoitment > DateTime.Now && appointment.Status != AppointmentStatusOptions.Atendimento.ToString())
+            {
+                <form asp-action="ChangeAppoitmentStatus"
+                      asp-controller="Appointment"
+                      asp-route-ID="@appointment.ID"
+                      asp-route-appointmentNewStatus="Atendimento"
+                      method="post"
+                      class="form-change-status hidden">
+                </form>
+            }
+            else if (dateEndTheAppoitment < DateTime.Now && appointment.Status != AppointmentStatusOptions.Receber.ToString())
+            {
+                <form asp-action="ChangeAppoitmentStatus"
+                      asp-controller="Appointment"
+                      asp-route-ID="@appointment.ID"
+                      asp-route-appointmentNewStatus="Receber"
+                      method="post"
+                      class="form-change-status hidden">
+                </form>
+            }
+            <div class="appointment-card">
+                <div class="appointment-header flex flex-spaced flex-align-center">
+                    <div class="appointment-client-info-box flex gap-md">
+                        <div>
+                            <img class="patient-img" src="@appointment.Patient?.PhotoPath" alt="Foto de um Paciente">
+                        </div>
+                        <div class="flex flex-column flex-justify-center">
+                            <p class="patient-name">@appointment?.Patient?.PatientName</p>
+                            <div class="patient-phone"><i class="ph ph-phone"></i> <p>@appointment?.Patient?.PhoneNumber</p></div>
+                        </div>
+                    </div>
+                    <div>
+                        @if (appointment?.Status == AppointmentStatusOptions.Agendado.ToString())
+                        {
+                            <a asp-controller="Appointment" class="btn-default btn-option" asp-action="UpdateAppointment" asp-route-id="@appointment?.ID"><i class="ph ph-gear"></i></a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Appointment" class="btn-default btn-option" asp-action="UpdateFinishedAppointment" asp-route-id="@appointment?.ID"><i class="ph ph-gear"></i></a>
+                        }
+                       
+                    </div>
+                </div>
+                <div class="appointment-body flex flex-column gap-sm">
+                    <div class="appointment-data flex flex-align-center gap-sm">
+                        <i class="ph ph-calendar-blank appointment-icon"></i>
+                        <p>
+                            Data da Consulta: <span class="text-gray">@appointment?.AppointmentTime!.Value.ToString().Split(" ")[0]</span>
+                        </p>
+                    </div>
+                    <div class="appointment-data flex flex-align-center gap-sm">
+                        <i class="ph ph-timer appointment-icon"></i>
+                        <p>
+                            Duração: <span class="text-gray">@appointment?.StartTime</span> - <span class="text-gray">@appointment?.EndTime</span>
+                        </p>
+                    </div>
+                    <div class="appointment-data flex flex-align-center gap-sm">
+                        <i class="ph ph-tooth appointment-icon"></i>
+                        <p>
+                            Dentista: <span class="text-gray">@appointment?.Dentist?.DentistName</span>
+                        </p>
+                    </div>
+                    <div class="appointment-data flex flex-align-center gap-sm">
+                        <i class="ph ph-stethoscope appointment-icon"></i>
+                        <p>
+                            Prodedimento: <span class="text-gray">@appointment?.ProcedureType</span>
+                        </p>
+                    </div>
+                    <div class="appointment-data flex flex-align-center gap-sm">
+                        <i class="ph ph-info appointment-icon"></i>
+                        <p>
+                            Status: <span class="text-gray">@appointment?.Status</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="appointment-footer flex flex-spaced flex-align-center">
+                    @if (appointment?.Status == AppointmentStatusOptions.Agendado.ToString())
+                    {
+                        <button class="btn-send-message flex flex-align-center gap-sm">
+                            <span class="hidden">@appointment?.ID</span>
+                            <i class="ph ph-chat-text appointment-icon"></i> Mensagem
+                        </button>
+                        <div class="flex flex-align-center gap-md">
+                            <span class="btn-default-secondary btn-option">Agendado <i class="ph ph-clock"></i></span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="exams-box flex flex-align-center gap-sm">
+                            <form asp-action="AddExamToAppointment"
+                                  asp-controller="Appointment"
+                                  asp-route-appointmentID="@appointment?.ID"
+                                  enctype="multipart/form-data"
+                                  method="post"
+                                  class="form-file">
+                                <input class="input-exams" name="fileName" type="file">
+                                <div class="flex flex-align-center gap-sm">
+                                    <i class="ph ph-chat-text appointment-icon"></i> Anexar Exames
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="flex flex-align-center gap-md">
+                            @if (appointment?.Status == AppointmentStatusOptions.Atendimento.ToString())
+                            {
+                                <button class="btn-default-secondary btn-option">Atendimento <i class="ph ph-clock"></i></button>
+                            }
+                            else if (appointment?.Status == AppointmentStatusOptions.Receber.ToString())
+                            {
+                                <button class="btn-warning-secondary btn-option btn-modal">Pagar <i class="ph ph-wallet"></i></button>
+                                <p class="hidden item-name">@appointment?.Patient?.PatientName</p>
+                                <p class="hidden item-id">@appointment?.ID</p>
+                            }
+                            else if (appointment?.Status == AppointmentStatusOptions.Pago.ToString())
+                            {
+                                <span class="btn-success-secondary btn-option">Pago <i class="ph ph-check"></i></span>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    
+
+    <div class="modal hidden">
+        <h3 class="subheading modal-heading mg-bt-bg">Confirmar Pagamento?</h3>
+        <p class="modal-message">
+            O pagamento foi realmente realizado por
+        </p>
+        <p class="modal-info">Ao realizar o pagamento não será possível desfazer ação.</p>
+        <div class="flex flex-align-center modal-box gap-md mg-tp-md">
+            <button class="close-modal mg-rg-sm">Manter</button>
+            <form asp-action="ChangeAppoitmentStatus" asp-controller="Appointment" asp-route-appointmentNewStatus="Pago" method="post" class="form-modal">
+                <button type="submit" class="btn-modal-item btn-success-secondary btn-option"><i class="ph ph-coin"></i>Pagar</button>
+            </form>
+        </div>
+    </div>
+    <div class="overlay element-hidden"></div>
+
+}
+
+

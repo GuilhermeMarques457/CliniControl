@@ -1,0 +1,35 @@
+﻿<h1 class="adm-tittle item-with-icon">Painel do Administrador <i class="ph ph-key"></i></h1>
+
+@{
+    await Html.RenderPartialAsync("_ShowSuccessError");
+}
+
+<section class="options-section grid-layout grid--2--cols">
+    <div class="option-box">
+        <div class="img-ilustration-box">
+            <img src="~/imgs/clinic-ilustration.svg" alt="Ilustração de uma cliníca" class="ilustration-img"/>
+        </div>
+        <div class="info-box">
+            <h3 class="subheading title-decoration ">Clinícas</h3>
+            <p class="commom-text">Utilizar essas ações quando quiser cadastrar novas clinícas e gerenciar as já existentes.</p>
+            <div class="buttons-box">
+                <a class="btn-full" asp-controller="Clinic" asp-area="Admin" asp-action="NewClinic">Nova Cliníca <i class="ph ph-tooth"></i></a>
+                <a class="btn-outline" asp-controller="Clinic" asp-area="Admin" asp-action="ListClinics">Listar <i class="ph ph-clipboard-text"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="option-box">
+        <div class="img-ilustration-box">
+            <img src="~/imgs/manager-ilustration.svg" alt="Ilustração de uma cliníca" class="ilustration-img" />
+        </div>
+        <div class="info-box">
+            <h3 class="subheading title-decoration">Gerenciadores</h3>
+            <p class="commom-text">Utilizar essas ações quando quiser cadastrar novos gerenciadores atrelando a clinicas ja cadastradas e gerenciar os já existentes.</p>
+            <div class="buttons-box">
+                <a class="btn-full" asp-controller="Manager" asp-area="Admin" asp-action="NewManager">Nova Gerenciador <i class="ph ph-user-plus"></i></a>
+                <a class="btn-outline" asp-controller="Manager" asp-area="Admin" asp-action="ListManagers">Listar <i class="ph ph-clipboard-text"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,131 @@
+﻿@model List<ReminderResponse>
+
+@if (ViewBag.Success != null)
+{
+    <div class="status-message-box">
+        <div class="status-message mg-tp-md flex flex-align-center gap-sm">
+            <i class="ph ph-x closable-item"></i>
+            <p class="text-green success-message">@ViewBag.Success</p>
+        </div>
+    </div>
+
+}
+else if (ViewBag.Errors != null)
+{
+    <div class="status-message-box">
+        <div class="status-message mg-tp-md">
+            <i class="ph ph-x closable-item"></i>
+            <p class="mg-tp-md text-red error-message">@ViewBag.Errors</p>
+        </div>
+    </div>
+}
+
+<form asp-action="ListReminder" asp-controller="Reminder" method="get">
+    <div class="search-box">
+        <div class="input-box input-date-appointments form-reminders-input">
+            <i class="ph ph-calendar input-icon"></i>
+            <label class="form-label element-hidden" for="dateOfReminders">Data da consulta</label>
+            <input class="form-input " name="dateOfReminders" id="dateOfReminders" type="date" value="@ViewBag.SelectedDate?.ToString("yyyy-MM-dd")" />
+            <span class="input-decoration"></span>
+        </div>
+        <div class="reminder-type-radio-box flex flex-align-center gap-md">
+            <label>
+                <input type="radio" name="reminderStatus" value="all" @(ViewBag.ReminderStatus == "all" ? "checked" : "")> Todos
+            </label>
+            <label>
+                <input type="radio" name="reminderStatus" value="finished" @(ViewBag.ReminderStatus == "finished" ? "checked" : "")> Finalizados
+            </label>
+            <label>
+                <input type="radio" name="reminderStatus" value="pending" @(ViewBag.ReminderStatus == "pending" ? "checked" : "")> Pendente
+            </label>
+        </div>
+     
+        <a class="btn btn-full btn-add-new" asp-action="NewReminder" asp-controller="Reminder">Novo</a>
+        <button class="btn-search"><i class="ph ph-magnifying-glass"></i></button>
+    </div>
+</form>
+
+@if (Model.Count() > 0)
+{
+    <div class="appointments-list-container grid grid--3--cols gap-bg">
+        @foreach (ReminderResponse reminder in Model)
+        {
+            <div class="appointment-card">
+                <div class="appointment-header flex flex-spaced flex-align-center">
+                    <div class="appointment-client-info-box flex flex-align-center gap-md">
+                        <p class="patient-name reminder-type @reminder?.ReminderType">@reminder?.ReminderType?.ToString().Replace("_", " ")</p>
+                    </div>
+                    <div>
+                        <a asp-controller="Reminder" class="btn-default btn-option" asp-action="UpdateReminder" asp-route-id="@reminder?.ID"><i class="ph ph-gear"></i></a>
+                    </div>
+                </div>
+                <div class="appointment-body flex flex-column gap-sm">
+                    <div class="appointment-data flex flex-align-center gap-sm">
+                        <i class="ph ph-calendar-blank appointment-icon"></i>
+                        <p>
+                            Data do lembrete: <span class="text-gray">@reminder?.ActityDate!.Value.ToString().Split(" ")[0]</span>
+                        </p>
+                    </div>
+                    <div class="appointment-data flex flex-align-center gap-sm">
+                        <i class="ph ph-timer appointment-icon"></i>
+                        <p>
+                            Descrição do lembrete: <span class="text-gray">@reminder?.ActivityDescription.</span>
+                        </p>
+                    </div>
+                    <div class="appointment-data flex flex-align-center gap-sm">
+                        <i class="ph ph-calendar-blank appointment-icon"></i>
+                        <p>
+                            Finalizado: 
+                            @if (reminder!.Finished)
+                            {
+                                 <span class="text-gray">Sim</span>
+                            }
+                            else
+                            {
+                                <span class="text-gray">Não</span>
+                            }
+                        </p>
+                    </div>
+                </div>
+                <div class="appointment-footer flex flex-spaced flex-align-center" style="justify-content: end">
+                    @if (!reminder!.Finished)
+                    {
+                        <p class="hidden item-name">@reminder?.ActivityDescription</p>
+                        <p class="hidden item-id">@reminder?.ID</p>
+                        <button class="btn-modal btn-default-secondary btn-option">Marcar como feito <i class="ph ph-check"></i></button>
+                      
+                    }
+                    else
+                    {
+                        <button class="btn-success-secondary btn-option flex flex-align-center gap-sm">
+                            Feito <i class="ph ph-checks"></i>
+                        </button>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="modal hidden">
+        <h3 class="subheading modal-heading mg-bt-bg">Confirmar Pagamento?</h3>
+        <p class="modal-message">
+            Você realmente fez a tarefa 
+        </p>
+        <p class="modal-info">Ao confirmar realização sera impossivél desfazer depois</p>
+        <div class="flex flex-align-center modal-box gap-md mg-tp-md">
+            <button class="close-modal mg-rg-sm">Manter</button>
+            <form asp-action="ChangeReminderStatus" asp-controller="Reminder" method="post" class="form-modal">
+                <button type="submit" class="btn-modal-item btn-success-secondary btn-option"><i class="ph ph-check"></i>Confirmar</button>
+            </form>
+        </div>
+    </div>
+    <div class="overlay element-hidden"></div>
+
+}
+else
+{
+    <h2 class="secondary-heading mg-tp-bg title-decoration">Não ha lembretes para hoje, parabens!!</h2>
+}
+
+
+

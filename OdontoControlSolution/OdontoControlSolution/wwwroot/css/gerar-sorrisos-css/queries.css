@@ -1,0 +1,384 @@
+/* rem and em do NOT depend on html font-size in media queries */
+
+/* 1350 divided by 16px (the default font-size value) =~ 84 */
+
+/***************************/
+/* Below 1344px */
+/***************************/
+
+@media (max-width: 84em) {
+  .hero {
+    max-width: 120rem;
+  }
+
+  .primary-heading {
+    font-size: 4.4rem;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/***************************/
+/* Below 1200px */
+/***************************/
+
+@media (max-width: 75em) {
+  html {
+    /* 9 divided by sixteen = 56,25% */
+    font-size: 56.25%;
+  }
+
+  .grid {
+    column-gap: 4.6rem;
+    row-gap: 6.4rem;
+  }
+
+  .secondary-heading {
+    font-size: 3.6rem;
+  }
+
+  .heading-tertiary {
+    font-size: 2.4rem;
+  }
+
+  .header {
+    padding: 0 3.2rem;
+  }
+
+  .hero {
+    gap: 4.8rem;
+  }
+
+  .main-nav-list {
+    gap: 3.2rem;
+  }
+
+  .testemonials-container {
+    padding: 4.6rem;
+  }
+}
+
+/***************************/
+/* Below 944px */
+/***************************/
+
+@media (max-width: 59rem) {
+  html {
+    font-size: 50%;
+  }
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 6.4rem;
+  }
+
+  .hero-image {
+    width: 55%;
+  }
+
+  .hero-content-box,
+  .hero-image-box {
+    text-align: center;
+  }
+
+  .hero-content-box {
+    padding: 0 10rem;
+  }
+
+  .delivered-meals {
+    justify-content: center;
+    margin-top: 3.2rem;
+  }
+
+  .logos img {
+    height: 2.4em;
+  }
+
+  .step-number {
+    font-size: 6.4rem;
+  }
+
+  .meal-content {
+    padding: 2.4rem 3.2rem 3.2rem 3.2rem;
+  }
+
+  .section-testemonials {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .cta-grid {
+    grid-template-columns: 3fr 2fr;
+  }
+
+  .cta-form {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-item {
+    width: 100%;
+  }
+
+  /* Mobile nav */
+
+  .btn-mobile-nav {
+    display: block;
+    z-index: 9999;
+  }
+
+  .main-nav {
+    background-color: rgb(255, 255, 255, 0.8);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    transition: all 0.5s ease-out;
+
+    /* this does note apply transition akkakaak
+    display: none; */
+
+    /* THIS IS THE RIGHT WAY OF HIDDING AN ELEMENT */
+    opacity: 0;
+    /* wtf this does not leave you click on it */
+    pointer-events: none;
+
+    /* wtf this hide from screen readers */
+    visibility: hidden;
+    transform: translateX(100%);
+  }
+
+  .main-nav-list {
+    flex-direction: column;
+    gap: 6.8rem;
+  }
+
+  .main-nav-list a {
+    font-size: 3rem !important;
+  }
+
+  .meal-attributes {
+    padding: 0;
+  }
+}
+
+/***************************/
+/* Below 700px */
+/***************************/
+
+@media (max-width: 44em) {
+  .grid--3--cols,
+  .grid--4--cols {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .diets {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  .list {
+    padding: 0;
+  }
+
+  .pricing-plan--complete::after {
+    top: 5%;
+    right: -20%;
+  }
+
+  .secondary-heading {
+    font-size: 4.4rem;
+    margin-bottom: 9.6rem;
+  }
+
+  .grid-footer {
+    /* this is beautiful splitting the grid in six to then divide it */
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .logo-col,
+  .address-col {
+    grid-row: 2;
+    grid-column: span 3;
+  }
+
+  .nav-col {
+    grid-row: 1;
+    /* i didn't remember that span is like "take two colums" */
+    grid-column: span 2;
+    margin-bottom: 3.2rem;
+  }
+
+  .social-links {
+    padding: 0;
+  }
+
+  .copyright {
+    font-size: 1.6rem;
+  }
+
+  .pricing-plan {
+    width: 100%;
+    justify-self: auto;
+    box-sizing: border-box;
+  }
+}
+
+/***************************/
+/* Below 544px */
+/***************************/
+
+@media (max-width: 34em) {
+  .grid {
+    row-gap: 4.8rem;
+  }
+
+  .grid--2--cols,
+  .grid--3--cols,
+  .grid--4--cols {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content-box {
+    padding: 0;
+  }
+
+  .hero {
+    padding: 0 3.2rem;
+  }
+
+  .hero-section {
+    padding: 2.4rem 0 6.4rem 0;
+  }
+
+  .btn,
+  .btn:link,
+  .btn:visited {
+    padding: 2.4rem 1.6rem;
+  }
+
+  .hero-image {
+    width: 80%;
+  }
+
+  .logos img {
+    height: 1.2rem;
+  }
+
+  .step-img-box:nth-child(2) {
+    grid-row: 1;
+  }
+
+  .step-img-box:nth-child(6) {
+    grid-row: 5;
+  }
+
+  .step-img-box {
+    transform: translateY(5.4rem);
+  }
+
+  .testemonials {
+    grid-template-columns: 1fr;
+  }
+
+  .testemonial-img {
+    margin-left: 4.8rem;
+  }
+
+  .testemonial-name {
+    display: block;
+    text-align: end;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .pricing-plan--complete::after {
+    top: 8%;
+    right: -10%;
+  }
+
+  .cta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-img-box {
+    height: 32rem;
+    grid-row: 1;
+  }
+
+  .cta-text-box {
+    padding: 3.2rem;
+  }
+}
+
+/* - SPACING SYSTEM (px) *16px rule
+2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
+
+FONT SIZE (px)
+    0 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98 */
+
+/***************************/
+/* Fixing Safari flex-box gap*/
+/***************************/
+
+/* If the body has this property added if there is no suport to gap in flex box */
+
+.no-flexbox-gap .main-nav-list li:not(:last-child) {
+  margin-right: 4.8rem;
+}
+
+.no-flexbox-gap .list-item:not(:last-child) {
+  margin-bottom: 1.6rem;
+}
+
+.no-flexbox-gap .list-icon:not(:last-child) {
+  margin-right: 1.6rem;
+}
+
+.no-flexbox-gap .delivered-faces {
+  margin-right: 1.6rem;
+}
+
+.no-flexbox-gap .meal-attribute:not(:last-child) {
+  margin-bottom: 2rem;
+}
+
+.no-flexbox-gap .meal-icon {
+  margin-right: 1.6rem;
+}
+
+.no-flexbox-gap .footer-row div:not(:last-child) {
+  margin-right: 6.4rem;
+}
+
+.no-flexbox-gap .social-links li:not(:last-child) {
+  margin-right: 2.4rem;
+}
+
+.no-flexbox-gap .footer-nav li:not(:last-child) {
+  margin-bottom: 2.4rem;
+}
+
+@media (max-width: 75em) {
+  .no-flexbox-gap .main-nav-list li:not(:last-child) {
+    margin-right: 3.2rem;
+  }
+}
+
+@media (max-width: 59em) {
+  .no-flexbox-gap .main-nav-list li:not(:last-child) {
+    margin-right: 0;
+    margin-bottom: 4.8rem;
+  }
+}
