@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OdontoControl.Core.Domain.Entities;
 using OdontoControl.Core.Domain.IdentityEntities;
+using OdontoControl.Core.DTO.AppointmentDTO;
 using OdontoControl.Core.DTO.ClinicDTO;
 using OdontoControl.Core.DTO.PatientDTO;
 using OdontoControl.Core.Enums;
 using OdontoControl.Core.Helpers;
+using OdontoControl.Core.ServiceContracts.AppointmentContracts;
 using OdontoControl.Core.ServiceContracts.ClinicContracts;
 using OdontoControl.Core.ServiceContracts.PatientContracts;
 using OdontoControl.Core.ServiceContracts.RequestedPatientContracts;
@@ -33,6 +35,7 @@ namespace OdontoControl.Controllers
         private readonly IClinicGetterService _ClinicGetterService;
         private readonly IPatientSorterService _PatientSorterService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IAppointmentGetterService _AppointmentGetterService;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public PatientController(IPatientAdderService PatientAdderService,
@@ -43,6 +46,7 @@ namespace OdontoControl.Controllers
             IPatientSorterService PatientSorterService,
             IRequestedPatientGetterService requestedPatientGetterService,
             IRequestedPatientUpdaterService requestedPatientUpdaterService,
+            IAppointmentGetterService appointmentGetterService,
             IWebHostEnvironment webHostEnvironment,
             UserManager<ApplicationUser> userManager
         )
@@ -55,6 +59,7 @@ namespace OdontoControl.Controllers
             _PatientSorterService = PatientSorterService;
             _RequestedPatientGetterService = requestedPatientGetterService;
             _RequestedPatientUpdaterService = requestedPatientUpdaterService;
+            _AppointmentGetterService = appointmentGetterService;
             _webHostEnvironment = webHostEnvironment;
             _userManager = userManager;
         }
@@ -229,6 +234,24 @@ namespace OdontoControl.Controllers
 
                 return RedirectToAction("ListPatients");
             }
+        }
+
+        [HttpGet("{ID}")]
+        public async Task<IActionResult> SeePatientDetails(Guid? ID)
+        {
+            PatientResponse? PatientResponse = await _PatientGetterService.GetPatientById(ID);
+            List<AppointmentResponse>? patientAppointmentsResponse = await _AppointmentGetterService.GetAppointmentByPatientId(ID);
+
+            ViewBag.PatientAppointments = patientAppointmentsResponse;
+
+            if (PatientResponse == null)
+            {
+                ViewBag.Errors = "Algo deu errado ao encontrar o Paciente. Tente novamente mais tarde";
+
+                return RedirectToAction("ListPatients");
+            }
+
+            return View(PatientResponse.ToPatientUpdateRequest());
         }
 
         [HttpGet]

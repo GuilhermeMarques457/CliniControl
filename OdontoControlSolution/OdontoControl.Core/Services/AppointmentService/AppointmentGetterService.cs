@@ -52,6 +52,19 @@ namespace OdontoControl.Core.Services.AppointmentService
             return appointment.ToAppointmentResponse();
         }
 
+        public async Task<List<AppointmentResponse>?> GetAppointmentByPatientId(Guid? patientID)
+        {
+            if (patientID == null)
+                return null;
+
+            List<Appointment>? appointmentList = await _repository.GetAppointmentByPatientId(patientID);
+
+            if (appointmentList == null)
+                return null;
+
+            return appointmentList.Select(temp => temp.ToAppointmentResponse()).ToList();
+        }
+
         public async Task<List<AppointmentResponse>?> GetFilterdAppointments(string? searchBy, string? searchString)
         {
             List<Appointment>? Appointments = new List<Appointment>();

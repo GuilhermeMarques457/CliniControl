@@ -1,7 +1,7 @@
 ﻿@model DentistAddRequest
 
 <section class="form-section">
-    <form asp-action="NewDentist" asp-controller="Dentist" method="post" class="form-box">
+    <form asp-action="NewDentist" enctype="multipart/form-data" asp-controller="Dentist" method="post" class="form-box">
         <input type="hidden" value="@ViewBag.ManagerID" name="ManagerID" />
         <div class="flex flex-spaced flex-align-center">
             <h2 class="form-heading title-decoration">Novo Dentista</h2>
@@ -48,6 +48,25 @@
                     <div class="input-validation-message-box">
                         <span asp-validation-for="EndTime" class="validate-message"></span>
                     </div>
+                </div>
+
+                
+            </div>
+            <div class="input-box">
+                <div class="input-file flex flex-justify-center flex-align-center">
+                    <div class="info-file-box">
+                        <div class="default-user-photo flex flex-center">
+                            <div class="change-photo-input-file-box">
+                                <img src="/imgs/default-user.jpg" class="change-photo-input-file" />
+                            </div>
+
+                        </div>
+                        <div class="input-file-info">
+                            <p class="text-send-photo"><span class="text-primary">Clique</span> ou <span class="text-primary">Arraste</span> sua photo aqui</p>
+                            <p class="text-send-info text-gray">Suporta <b>JPG</b> e <b>PNG</b></p>
+                        </div>
+                    </div>
+                    <input type="file" class="send-img-input hidden" name="dentistImage" />
                 </div>
             </div>
 

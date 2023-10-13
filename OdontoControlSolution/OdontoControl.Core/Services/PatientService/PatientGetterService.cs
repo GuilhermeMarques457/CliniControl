@@ -41,6 +41,8 @@ namespace OdontoControl.Core.Services.PatientService
             return Patient.ToPatientResponse();
         }
 
+
+
         public async Task<List<PatientResponse>?> GetPatientsByManagerID(Guid? ManagerID)
         {
             if (ManagerID == null)

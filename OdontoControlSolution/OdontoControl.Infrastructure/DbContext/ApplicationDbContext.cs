@@ -33,6 +33,7 @@ namespace OdontoControl.Infrastructure.DbContext
             builder.Entity<Patient>().ToTable("Patients");
             builder.Entity<RequestedPatient>().ToTable("RequestedPatients");
             builder.Entity<Reminder>().ToTable("Reminders");
+         
         }
     }
 }

@@ -31,7 +31,9 @@ namespace OdontoControl.Infrastructure.Repositories
 
         public async Task<bool> DeletePatient(Guid? PatientID)
         {
-            Patient Patient = await _context.Patients.FirstAsync(temp => temp.ID == PatientID);
+            Patient? Patient = await GetPatientById(PatientID);
+
+            if (Patient == null) return false;
 
             _context.Patients.Remove(Patient);
 
@@ -52,16 +54,19 @@ namespace OdontoControl.Infrastructure.Repositories
 
         public async Task<Patient?> UpdatePatient(Patient Patient)
         {
-            Patient? matchingPatient = await _context.Patients.Include("Manager").FirstOrDefaultAsync(temp => temp.ID == Patient.ID);
+            _context.ChangeTracker.Clear();
 
-            if (matchingPatient != null)
-            {
-                matchingPatient.Gender = Patient.Gender;
-                matchingPatient.PatientName = Patient.PatientName;
-                matchingPatient.PhoneNumber = Patient.PhoneNumber;
-                matchingPatient.CPF = Patient.CPF;
-                matchingPatient.PhotoPath = Patient.PhotoPath;
-            }
+            Patient? matchingPatient = await GetPatientById(Patient.ID);
+
+            if (matchingPatient == null) return null;
+           
+            matchingPatient.Gender = Patient.Gender;
+            matchingPatient.PatientName = Patient.PatientName;
+            matchingPatient.PhoneNumber = Patient.PhoneNumber;
+            matchingPatient.CPF = Patient.CPF;
+            matchingPatient.PhotoPath = Patient.PhotoPath;
+   
+            _context.Patients.Update(matchingPatient);
 
             await _context.SaveChangesAsync();
 

@@ -84,6 +84,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\imgs\exams\" />
+    <Folder Include="wwwroot\imgs\dentist-photos\" />
     <Folder Include="wwwroot\imgs\patient-photos\" />
   </ItemGroup>
 

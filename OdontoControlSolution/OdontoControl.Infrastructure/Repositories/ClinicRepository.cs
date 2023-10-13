@@ -31,7 +31,9 @@ namespace OdontoControl.Infrastructure.Repositories
 
         public async Task<bool> DeleteClinic(Guid? clinicID)
         {
-            Clinic clinic = await _context.Clinics.FirstAsync(temp => temp.ID == clinicID);
+            Clinic? clinic = await GetClinicById(clinicID);
+
+            if (clinic == null) return false;
 
             _context.Clinics.Remove(clinic);
 
@@ -57,19 +59,22 @@ namespace OdontoControl.Infrastructure.Repositories
 
         public async Task<Clinic?> UpdateClinic(Clinic clinic)
         {
-            Clinic? matchingClinic = await _context.Clinics.FirstOrDefaultAsync(temp => temp.ID == clinic.ID);
+            _context.ChangeTracker.Clear();
 
-            if (matchingClinic != null)
-            {
-                matchingClinic.StreetName = clinic.StreetName;
-                matchingClinic.CNPJ = clinic.CNPJ;
-                matchingClinic.City = clinic.City;
-                matchingClinic.ClinicName = clinic.ClinicName;
-                matchingClinic.Neighborhood = clinic.Neighborhood;
-                matchingClinic.ID = clinic.ID;
-                matchingClinic.Phone = clinic.Phone;
-            }
+            Clinic? matchingClinic = await GetClinicById(clinic.ID);
 
+            if (matchingClinic == null) return null;
+            
+            matchingClinic.StreetName = clinic.StreetName;
+            matchingClinic.CNPJ = clinic.CNPJ;
+            matchingClinic.City = clinic.City;
+            matchingClinic.ClinicName = clinic.ClinicName;
+            matchingClinic.Neighborhood = clinic.Neighborhood;
+            matchingClinic.ID = clinic.ID;
+            matchingClinic.Phone = clinic.Phone;
+
+            _context.Clinics.Update(matchingClinic);
+            
             await _context.SaveChangesAsync();
 
             return matchingClinic;

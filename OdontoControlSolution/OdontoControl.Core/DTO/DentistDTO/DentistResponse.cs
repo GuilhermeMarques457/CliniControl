@@ -21,6 +21,7 @@ namespace OdontoControl.Core.DTO.DentistDTO
         public string? PhoneNumber { get; set; }
         public TimeSpan? StartTime { get; set; }
         public TimeSpan? EndTime { get; set; }
+        public string? PhotoPath { get; set; }
 
         public override bool Equals(object? obj)
         {
@@ -34,7 +35,8 @@ namespace OdontoControl.Core.DTO.DentistDTO
                 PhoneNumber == dentist.PhoneNumber &&
                 ManagerID == dentist.ManagerID &&
                 EndTime == dentist.EndTime &&
-                StartTime == dentist.StartTime;
+                StartTime == dentist.StartTime &&
+                PhotoPath == dentist.PhotoPath;
         }
 
         public override int GetHashCode()
@@ -52,6 +54,7 @@ namespace OdontoControl.Core.DTO.DentistDTO
                 DentistName = DentistName,
                 StartTime = StartTime,
                 EndTime = EndTime,
+                PhotoPath = PhotoPath,
             };
         }
 
@@ -65,6 +68,7 @@ namespace OdontoControl.Core.DTO.DentistDTO
                 PhoneNumber = PhoneNumber,
                 StartTime = StartTime,
                 EndTime = EndTime,
+                PhotoPath = PhotoPath,
             };
         }
     }
@@ -82,6 +86,7 @@ namespace OdontoControl.Core.DTO.DentistDTO
                 Manager = dentist.Manager,
                 StartTime = dentist.StartTime,
                 EndTime = dentist.EndTime,
+                PhotoPath = dentist.PhotoPath,
             };
         }
     }

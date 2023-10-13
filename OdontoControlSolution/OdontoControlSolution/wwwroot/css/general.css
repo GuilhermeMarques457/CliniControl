@@ -4,7 +4,8 @@
     --primary-color-even-lighter: #dfeaf0;
     --primary-light-gradient: linear-gradient(to left top, var(--primary-color-opacity), var(--primary-color-even-lighter));
     --primary-color-darker: #263c48;
-    --primary-dark-gradient: linear-gradient(to right, var(--primary-color), var(--primary-color-darker));
+    --primary-dark-gradient: linear-gradient(to right, var(--primary-color-darker), var(--primary-color-opacity));
+    --dark-gradient-theme: linear-gradient(to right, var(--white-color), #000);
     --primary-color-opacity: rgba(96, 150, 180, 0.35);
     --primary-secondary-gradient: linear-gradient(to right, var(--primary-color), var(--secondary-color));
     --secondary-color: #93BFCF;
@@ -14,16 +15,35 @@
     --dark-color-lighter: #6c6f71;
     --dark-color-opacity: rgba(10, 15, 18, 0.5);
     --white-color: #f9fbfc;
+    --white-color-darker: #e0e2e3;
     --white-color-opacity: rgba(239, 245, 248, 0.5);
+    --pure-dark-color: #000;
+    --pure-white-color: #fff;
     --fonte-principal: Arial, sans-serif;
     --large-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.1);
 }
 
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    cursor: pointer;
 }
+
+    *::-webkit-scrollbar {
+        width: 10px;
+        border-radius: 5px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        border-radius: 3px;
+        background-color: var(--primary-color);
+    }
+
+    *::-webkit-scrollbar-track {
+        background-color: var(--white-color);
+    }
 
     *:focus-visible {
         transition: 0.06s all;
@@ -50,5 +70,5 @@ body {
   background-color: var(--white-color)
 }
 
-
+    
 

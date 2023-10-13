@@ -1,6 +1,6 @@
 ﻿@if (ViewBag.Success != null)
 {
-    <div class="status-message-box">
+    <div class="status-message-box success-box">
         <div class="status-message mg-tp-md">
             <i class="ph ph-x closable-item"></i>
             <p class="text-green success-message">@ViewBag.Success</p>
@@ -10,10 +10,10 @@
 }
 @if (ViewBag.Errors != null)
 {
-    <div class="status-message-box">
+    <div class="status-message-box error-box">
         <div class="status-message mg-tp-md">
             <i class="ph ph-x closable-item"></i>
-            <p class="mg-tp-md text-red error-message">@ViewBag.Errors</p>
+            <p class="text-red error-message">@ViewBag.Errors</p>
         </div>
     </div>
 }

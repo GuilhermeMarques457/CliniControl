@@ -7,10 +7,12 @@ namespace OdontoControl.UI.StartupExtensions
     public class ConfigureAdminUserExtensions : IHostedService
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly IConfiguration _configuration;
 
-        public ConfigureAdminUserExtensions(IServiceProvider serviceProvider)
+        public ConfigureAdminUserExtensions(IServiceProvider serviceProvider, IConfiguration configuration)
         {
             _serviceProvider = serviceProvider;
+            _configuration = configuration;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -29,14 +31,17 @@ namespace OdontoControl.UI.StartupExtensions
                 await roleManager.CreateAsync(applicationRole);
             }
 
-            if (await userManager.FindByNameAsync("guilherme.marques.santos457@gmail.com") == null)
+            string userName = _configuration["AdminUser:UserName"]!;
+            string password = _configuration["AdminUser:Password"]!;
+
+            if (await userManager.FindByNameAsync(userName) == null)
             {
                 var adminUser = new ApplicationUser
                 {
-                    UserName = "guilherme.marques.santos457@gmail.com",
+                    UserName = userName
                 };
 
-                await userManager.CreateAsync(adminUser, "Gui19982014");
+                await userManager.CreateAsync(adminUser, password);
                 await userManager.AddToRoleAsync(adminUser, "Admin");
             }
         }

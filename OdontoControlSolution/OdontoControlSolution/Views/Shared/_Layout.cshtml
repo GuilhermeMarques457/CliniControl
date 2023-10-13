@@ -9,7 +9,10 @@
     <link href="~/css/style.css" rel="stylesheet" type="text/css" />
     <link href="~/css/helpers.css" rel="stylesheet" type="text/css" />
     <link href="~/css/components.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/theme.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/media-query.css" rel="stylesheet" type="text/css" />
     <script src="~/script/closeItem.js" defer></script>
+    <script src="~/script/theme.js" defer></script>
     @if (ViewBag.CssFiles != null)
     {
         foreach (var cssFile in ViewBag.CssFiles)
@@ -38,8 +41,22 @@
                         <a class="item-with-icon" asp-controller="Home" asp-action="Daily">Diario <i class="ph ph-book-bookmark"></i></a>
                     </li>
                     <li class="list-item nav-link">
+                        <div class="button-color-theme-box flex flex-align-center">
+                            <input type="checkbox" id="theme-toggle" />
+                            <label class="btn-theme" for="theme-toggle">
+
+                                <i class="ph ph-sun theme-icon sun-icon"></i>
+                                <i class="ph ph-moon theme-icon moon-icon"></i>
+
+                            </label>
+                        </div>
+                    </li>
+                    <li class="list-item nav-link">
                         <a class="item-with-icon btn-full" asp-area="" asp-controller="Account" asp-action="Logout">Sair <i class="ph ph-sign-out"></i></a>
                     </li>
+                   
+
+                   
                 </ul>
             </nav>
         </header>

@@ -52,14 +52,19 @@ namespace OdontoControl.Infrastructure.Repositories
 
         public async Task<Dentist?> UpdateDentist(Dentist dentist)
         {
-            Dentist? matchingDentist = await _context.Dentists.FirstOrDefaultAsync(temp => temp.ID == dentist.ID);
+            //_context.ChangeTracker.Clear();
 
-            if (matchingDentist != null)
-            {
-                matchingDentist.ID = dentist.ID;
-                matchingDentist.DentistName = dentist.DentistName;
-                matchingDentist.PhoneNumber = dentist.PhoneNumber;
-            }
+            Dentist? matchingDentist = await GetDentistById(dentist.ID);
+
+            if (matchingDentist == null) return null;
+
+            matchingDentist.DentistName = dentist.DentistName;
+            matchingDentist.PhoneNumber = dentist.PhoneNumber;
+            matchingDentist.PhotoPath = dentist.PhotoPath;
+            matchingDentist.StartTime = dentist.StartTime;
+            matchingDentist.EndTime = dentist.EndTime;
+
+            _context.Dentists.Update(matchingDentist);
 
             await _context.SaveChangesAsync();
 

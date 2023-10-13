@@ -13,7 +13,7 @@
     padding: 1.2rem 1.8rem;
     font-size: 1.7rem;
     cursor: pointer;
-    border-radius: 8px;
+    border-radius: 3px;
     transition: all 0.3s;
     font-weight: 600;
 }
@@ -262,6 +262,7 @@
     border-radius: 16px;
     padding-bottom: 4rem;
     overflow-x: scroll;
+    overflow-y: hidden;
     height: 90rem;
     display: flex;
     flex-direction: column;
@@ -355,6 +356,11 @@
 
     .table-row-body{
         height: 10%;
+        transition: all 0.4s;
+    }
+
+    .table-row-body:hover {
+        background-color: var(--primary-color-lighter) !important;
     }
 
     .table-column:not(:first-child) {
@@ -411,13 +417,20 @@
 /* Error or success mesage*/
 .status-message-box {
     margin-bottom: 3.2rem;
+    border-radius: 10px;
+}
+
+.success-box {
+    background-color: #ebfbee;
+}
+
+.error-box {
+    background-color: #fff5f5;
 }
 
 .status-message {
-    border-radius: 10px;
-    background-color: var(--white-color);
     padding: 2.4rem 3.8rem;
-    box-shadow: 0 2.2rem 2.4rem rgba(0, 0, 0, 0.025);
+    box-shadow: 0 2.2rem 2.4rem rgba(0, 0, 0, 0.020);
     position: relative;
 }
 
@@ -443,7 +456,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 45%;
-    background-color: white;
+    background-color: var(--white-color);
     padding: 5rem;
     border-radius: 5px;
     box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);

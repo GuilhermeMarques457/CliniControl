@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using OdontoControl.Core.Domain.IdentityEntities;
 using OdontoControl.Core.DTO.DentistDTO;
+using OdontoControl.Core.DTO.PatientDTO;
 using OdontoControl.Core.Enums;
+using OdontoControl.Core.Helpers;
 using OdontoControl.Core.ServiceContracts.ClinicContracts;
 using OdontoControl.Core.ServiceContracts.DentistContracts;
 using OdontoControl.UI.Filters.ActionFilters;
@@ -23,6 +26,7 @@ namespace OdontoControl.Controllers
         private readonly IDentistGetterService _DentistGetterService;
         private readonly IClinicGetterService _ClinicGetterService;
         private readonly IDentistSorterService _DentistSorterService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public DentistController(IDentistAdderService DentistAdderService,
@@ -31,6 +35,7 @@ namespace OdontoControl.Controllers
             IDentistGetterService DentistGetterService,
             IClinicGetterService clinicGetterService,
             IDentistSorterService dentistSorterService,
+            IWebHostEnvironment webHostEnvironment,
             UserManager<ApplicationUser> userManager
         )
         {
@@ -40,6 +45,7 @@ namespace OdontoControl.Controllers
             _DentistUpdaterService = DentistUpdaterService;
             _ClinicGetterService = clinicGetterService;
             _DentistSorterService = dentistSorterService;
+            _webHostEnvironment = webHostEnvironment;
             _userManager = userManager;
         }
 
@@ -102,6 +108,7 @@ namespace OdontoControl.Controllers
         public async Task<IActionResult> NewDentist()
         {
             AddCssFilesHelper.AddCssFiles(controller: this, "form.css");
+            AddJsFilesHelper.AddJsFiles(controller: this, "showChangedPhoto.js");
 
             if (User.Identity == null)
             {
@@ -116,17 +123,38 @@ namespace OdontoControl.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> NewDentist(DentistAddRequest Dentist)
+        public async Task<IActionResult> NewDentist(DentistAddRequest Dentist, IFormFile? dentistImage)
         {
 
             if (!ModelState.IsValid)
             {
                 AddCssFilesHelper.AddCssFiles(controller: this, "form.css");
+                AddJsFilesHelper.AddJsFiles(controller: this, "showChangedPhoto.js");
 
                 return View(Dentist);
             }
 
             DentistResponse DentistResponse = await _DentistAdderService.AddDentist(Dentist);
+
+            if (DentistResponse == null)
+            {
+                TempData["Errors"] = "Ocorreu um erro ao adicionar o paciente";
+                return RedirectToAction("ListPatients");
+            }
+
+            if (dentistImage != null)
+            {
+                string webRootPath = _webHostEnvironment.WebRootPath;
+                await ManageImageProject.AddImage(dentistImage, webRootPath, "imgs/dentist-photos", DentistResponse.ID);
+
+                DentistResponse.PhotoPath = $"/imgs/dentist-photos/{DentistResponse.ID}-{dentistImage.FileName}";
+            }
+            else
+            {
+                DentistResponse.PhotoPath = $"/imgs/default-user.png";
+            }
+
+            DentistResponse DentistResponseImageAdded = await _DentistUpdaterService.UpdateDentist(DentistResponse.ToDentistUpdateRequest());
 
             if (DentistResponse == null)
             {

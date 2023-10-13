@@ -42,14 +42,17 @@ namespace OdontoControl.Infrastructure.Repositories
 
         public async Task<Reminder?> UpdateReminder(Reminder reminder)
         {
-            Reminder? matchingReminder = await _context.Reminders.FirstOrDefaultAsync(temp => temp.ID == reminder.ID);
+            _context.ChangeTracker.Clear();
 
-            if (matchingReminder != null)
-            {
-                matchingReminder.Finished = reminder.Finished;
-                matchingReminder.ActivityDescription = reminder.ActivityDescription;
-                matchingReminder.ActityDate = reminder.ActityDate;
-            }
+            Reminder? matchingReminder = await GetReminderByID(reminder.ID);
+
+            if (matchingReminder == null) return null;
+            
+            matchingReminder.Finished = reminder.Finished;
+            matchingReminder.ActivityDescription = reminder.ActivityDescription;
+            matchingReminder.ActityDate = reminder.ActityDate;
+
+            _context.Reminders.Update(matchingReminder);
 
             await _context.SaveChangesAsync();
 

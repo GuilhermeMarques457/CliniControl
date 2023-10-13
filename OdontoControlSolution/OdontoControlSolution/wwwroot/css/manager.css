@@ -242,7 +242,7 @@
     }
 
 .requested-patient-box {
-    background-color: #fff;
+    background-color: var(--pure-white-color);
     border-radius: 8px;
     padding: 3.2rem;
     box-shadow: 0 1.6rem 3.8rem rgba(0, 0, 0, 0.05);

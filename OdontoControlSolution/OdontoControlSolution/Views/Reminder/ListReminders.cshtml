@@ -1,23 +1,7 @@
 ﻿@model List<ReminderResponse>
 
-@if (ViewBag.Success != null)
-{
-    <div class="status-message-box">
-        <div class="status-message mg-tp-md flex flex-align-center gap-sm">
-            <i class="ph ph-x closable-item"></i>
-            <p class="text-green success-message">@ViewBag.Success</p>
-        </div>
-    </div>
-
-}
-else if (ViewBag.Errors != null)
-{
-    <div class="status-message-box">
-        <div class="status-message mg-tp-md">
-            <i class="ph ph-x closable-item"></i>
-            <p class="mg-tp-md text-red error-message">@ViewBag.Errors</p>
-        </div>
-    </div>
+@{
+    await Html.RenderPartialAsync("_ShowSuccessError");
 }
 
 <form asp-action="ListReminder" asp-controller="Reminder" method="get">
@@ -25,7 +9,7 @@ else if (ViewBag.Errors != null)
         <div class="input-box input-date-appointments form-reminders-input">
             <i class="ph ph-calendar input-icon"></i>
             <label class="form-label element-hidden" for="dateOfReminders">Data da consulta</label>
-            <input class="form-input " name="dateOfReminders" id="dateOfReminders" type="date" value="@ViewBag.SelectedDate?.ToString("yyyy-MM-dd")" />
+            <input class="form-input appointment-date-dark" name="dateOfReminders" id="dateOfReminders" type="date" value="@ViewBag.SelectedDate?.ToString("yyyy-MM-dd")" />
             <span class="input-decoration"></span>
         </div>
         <div class="reminder-type-radio-box flex flex-align-center gap-md">

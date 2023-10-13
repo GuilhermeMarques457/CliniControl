@@ -34,6 +34,8 @@ namespace OdontoControl.Core.DTO.DentistDTO
         [DataType(DataType.Time)]
         public TimeSpan? EndTime { get; set; }
 
+        public string? PhotoPath { get; set; }
+
         public Dentist ToDentist()
         {
             return new Dentist()
@@ -44,6 +46,7 @@ namespace OdontoControl.Core.DTO.DentistDTO
                 PhoneNumber = PhoneNumber,
                 StartTime = StartTime,
                 EndTime = EndTime,
+                PhotoPath = PhotoPath
             };
         }
     }

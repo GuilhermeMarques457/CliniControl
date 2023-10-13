@@ -61,7 +61,7 @@
         <tbody class="table-body">
             @foreach (var item in Model)
             {
-                <tr class="table-row-body">
+                <tr class="table-row-body" onclick="window.location.href='/Patient/SeePatientDetails/@item?.ID'">
                     <td class="table-column">
                         <p class="table-item">@item?.PatientName</p>
                     </td>
@@ -87,6 +87,8 @@
                         </div>
                     </td>
                 </tr>
+         
+                
             }
         </tbody>
     </table>

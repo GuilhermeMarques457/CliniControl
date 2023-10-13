@@ -34,7 +34,7 @@ namespace OdontoControl.Infrastructure.Repositories
 
         public async Task<bool> DeleteAppointment(Guid? appointmentID)
         {
-            Appointment? appointment = await _context.Appointments.FirstOrDefaultAsync(temp => temp.ID == appointmentID);
+            Appointment? appointment = await GetAppointmentById(appointmentID);
 
             if (appointment == null)
                 return false;
@@ -48,7 +48,7 @@ namespace OdontoControl.Infrastructure.Repositories
 
         public async Task<bool> DeleteAttachment(string urlPathImg, Guid appointmentID)
         {
-            Appointment? appointment = await _context.Appointments.FirstOrDefaultAsync(temp => temp.ID == appointmentID);
+            Appointment? appointment = await GetAppointmentById(appointmentID);
 
             if (appointment == null)
                 return false;
@@ -78,25 +78,32 @@ namespace OdontoControl.Infrastructure.Repositories
         public async Task<Appointment?> GetAppointmentById(Guid? AppointmentID)
         {
             return await _context.Appointments.Include("Patient").Include("Dentist").FirstOrDefaultAsync(temp => temp.ID == AppointmentID);
+        }
 
+        public async Task<List<Appointment>?> GetAppointmentByPatientId(Guid? patientID)
+        {
+            return await _context.Appointments.Include("Patient").Include("Dentist").Where(temp => temp.PatientID == patientID).ToListAsync();
         }
 
         public async Task<Appointment?> UpdateAppointment(Appointment appointment)
         {
-            Appointment? matchingAppointment = await _context.Appointments.Include("Patient").Include("Dentist").FirstOrDefaultAsync(temp => temp.ID == appointment.ID);
+            _context.ChangeTracker.Clear();
 
-            if (matchingAppointment != null) 
-            {
-                matchingAppointment.AppointmentTime = appointment.AppointmentTime;
-                matchingAppointment.Comments = appointment.Comments;
-                matchingAppointment.PatientID = appointment.PatientID;
-                matchingAppointment.DentistID = appointment.DentistID;
-                matchingAppointment.ProcedureType = appointment.ProcedureType;
-                matchingAppointment.StartTime = appointment.StartTime;
-                matchingAppointment.EndTime = appointment.EndTime;
-                matchingAppointment.Status = appointment.Status;
-                matchingAppointment.ExamsPath = appointment.ExamsPath;
-            }
+            Appointment? matchingAppointment = await GetAppointmentById(appointment.ID);
+
+            if (matchingAppointment == null) return null;
+            
+            matchingAppointment.AppointmentTime = appointment.AppointmentTime;
+            matchingAppointment.Comments = appointment.Comments;
+            matchingAppointment.PatientID = appointment.PatientID;
+            matchingAppointment.DentistID = appointment.DentistID;
+            matchingAppointment.ProcedureType = appointment.ProcedureType;
+            matchingAppointment.StartTime = appointment.StartTime;
+            matchingAppointment.EndTime = appointment.EndTime;
+            matchingAppointment.Status = appointment.Status;
+            matchingAppointment.ExamsPath = appointment.ExamsPath;
+
+            _context.Appointments.Update(matchingAppointment);
 
             await _context.SaveChangesAsync();
 
@@ -120,10 +127,15 @@ namespace OdontoControl.Infrastructure.Repositories
 
         public async Task<Appointment?> AddExamToAppointment(Appointment appointment)
         {
-            Appointment? matchingAppointment = await _context.Appointments.Include("Patient").Include("Dentist").FirstOrDefaultAsync(temp => temp.ID == appointment.ID);
+            _context.ChangeTracker.Clear();
 
-            if (matchingAppointment != null)
-                matchingAppointment.ExamsPath = appointment.ExamsPath;
+            Appointment? matchingAppointment = await GetAppointmentById(appointment.ID);
+
+            if (matchingAppointment == null) return null;
+
+            matchingAppointment.ExamsPath = appointment.ExamsPath;
+
+            _context.Appointments.Update(matchingAppointment);
 
             await _context.SaveChangesAsync();
 

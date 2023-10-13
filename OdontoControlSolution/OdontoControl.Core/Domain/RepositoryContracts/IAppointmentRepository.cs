@@ -15,6 +15,7 @@ namespace OdontoControl.Core.Domain.RepositoryContracts
         Task<bool> DeleteAppointment(Guid? appointmentID);
         Task<bool> DeleteAttachment(string urlPathImg, Guid appointmentID);
         Task<Appointment?> GetAppointmentById(Guid? AppointmentID);
+        Task<List<Appointment>?> GetAppointmentByPatientId(Guid? patientID);
         Task<List<Appointment>> GetAllAppointments();
         Task<List<Appointment>> GetFilteredAppointments(Expression<Func<Appointment, bool>> predicate);
         Task<List<Appointment>> GetAllDayAppointments(DateTime? DayOfAppointment, Guid? DentistID);

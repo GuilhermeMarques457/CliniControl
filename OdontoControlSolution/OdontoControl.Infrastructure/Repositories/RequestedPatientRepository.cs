@@ -44,14 +44,17 @@ namespace OdontoControl.Infrastructure.Repositories
 
         public async Task<RequestedPatient?> UpdateContactedStatusPatient(RequestedPatient Patient)
         {
-            RequestedPatient? matchingPatient = await _context.RequestedPatients.FirstOrDefaultAsync(temp => temp.ID == Patient.ID);
+            _context.ChangeTracker.Clear();
 
-            if (matchingPatient != null)
-            {
-                matchingPatient.PatientName = Patient.PatientName;
-                matchingPatient.PhoneNumber = Patient.PhoneNumber;
-                matchingPatient.Contacted = Patient.Contacted;
-            }
+            RequestedPatient? matchingPatient = await GetRequestedPatientByID(Patient.ID);
+
+            if (matchingPatient == null) return null;
+            
+            matchingPatient.PatientName = Patient.PatientName;
+            matchingPatient.PhoneNumber = Patient.PhoneNumber;
+            matchingPatient.Contacted = Patient.Contacted;
+
+            _context.RequestedPatients.Update(matchingPatient);
 
             await _context.SaveChangesAsync();
 

@@ -1,0 +1,190 @@
+/* Changing styling */
+
+body.dark-mode .btn-full {
+    color: var(--dark-color) !important;
+}
+
+body.dark-mode .btn-full:hover {
+    color: var(--primary-color) !important;
+}
+
+.dark-mode .table-body > :nth-child(even) {
+    background-color: #000;
+}
+
+.dark-mode .table-container {
+    background-color: #000;
+}
+
+.dark-mode .table-row-header{
+    background-color: #000;
+}
+
+.dark-mode .form-box{
+    background: var(--dark-gradient-theme);
+}
+
+.dark-mode .closable-item {
+    color: var(--white-color);
+}
+
+.dark-mode .btn-default-secondary:hover, .dark-mode .btn-outline:hover {
+    color: var(--dark-color);
+}
+
+.dark-mode .appointment-date-dark{
+    color: var(--white-color);
+}
+
+.dark-mode .appointment-header {
+    border-radius: 8px;
+    background: var(--primary-dark-gradient);
+}
+
+.dark-mode .appointment-details-box {
+    background: var(--primary-dark-gradient);
+}
+
+.dark-mode .btn-warning,
+.dark-mode .btn-default,
+.dark-mode .btn-search,
+.dark-mode .input-search,
+.dark-mode .close-modal,
+.dark-mode .not-contacted-count
+{
+    color: var(--dark-color)
+}
+
+.dark-mode .table-row-body:hover {
+    background-color: var(--primary-color-darker) !important;
+}
+
+/* Button Toggle */
+.btn-theme {
+    width: 70px;
+    height: 30px;
+    position: relative;
+    display: block;
+    background: #ebebeb;
+    border-radius: 200px;
+    cursor: pointer;
+}
+
+    .btn-theme:after {
+        content: "";
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 5px;
+        left: 6.5px;
+        background: linear-gradient(180deg, #ffcc89, #d8860b);
+        border-radius: 50%;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    }
+
+#theme-toggle {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+}
+
+    #theme-toggle:checked + .btn-theme {
+        background-color: var(--dark-color);
+    }
+
+        #theme-toggle:checked + .btn-theme:after {
+            left: 60px;
+            transform: translateX(-100%);
+            background: linear-gradient(to right, #211b1b, var(--white-color));
+     
+        }
+
+.btn-theme,
+.btn-theme:after {
+    transition: 0.3s;
+}
+
+    .btn-theme:active:after {
+        width: 10px;
+    }
+
+.theme-icon {
+    position: absolute;
+    font-size: 1.5rem;
+    z-index: 999;
+    top: 8px;
+    color: var(--dark-color);
+}
+
+.sun-icon {
+    color: var(--white-color);
+    left: 9px;
+}
+
+.moon-icon {
+    color: var(--dark-color);
+
+    left: 42.3px;
+}
+
+.country-img:hover {
+    filter: grayscale(0);
+}
+
+.country-img.selected {
+    filter: grayscale(0);
+}
+
+.navigation-box {
+    position: relative;
+    width: 27rem;
+    justify-content: space-between;
+}
+
+.nav-line {
+    transition: all 0.5s;
+    position: absolute;
+    display: block;
+    height: 2px;
+    bottom: -5px;
+    width: 110%;
+    background-color: var(--primary-color);
+}
+
+    .nav-line.about {
+        animation: nav-animation-about 0.5s forwards cubic-bezier(0.4, 0, 0.6, 1);
+    }
+
+    .nav-line.projects {
+        animation: nav-animation-projects 0.5s forwards cubic-bezier(0.4, 0, 0.6, 1);
+    }
+
+@keyframes nav-animation-projects {
+    0% {
+        transform: translateX(0);
+    }
+
+    30% {
+        transform: translateX(-15%);
+    }
+
+    100% {
+        transform: translateX(16rem);
+    }
+}
+
+@keyframes nav-animation-about {
+    0% {
+        transform: translateX(125%);
+    }
+
+    30% {
+        transform: translateX(140%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* End */
