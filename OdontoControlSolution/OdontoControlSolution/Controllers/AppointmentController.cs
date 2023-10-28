@@ -22,6 +22,7 @@ using System;
 using OdontoControl.Core.ServiceContracts.TwilioContracts;
 using OdontoControl.Core.DTO.ClinicDTO;
 using System.Text.Json;
+using Microsoft.AspNetCore.Routing;
 
 namespace OdontoControl.Controllers
 {
@@ -78,15 +79,28 @@ namespace OdontoControl.Controllers
         )
         {
             AddCssFilesHelper.AddCssFiles(controller: this, "manager.css");
-            AddJsFilesHelper.AddJsFiles(controller: this, "modal.js", "pagination.js");
+            AddJsFilesHelper.AddJsFiles(controller: this, "modal.js", "pagination.js", "changeAppointmentStatus.js");
 
             ViewBag.Success = TempData["Success"];
             ViewBag.Errors = TempData["Errors"];
 
             List<AppointmentResponse>? AppointmentList = await _AppointmentGetterService.GetAllAppointments();
 
+            List<AppointmentResponse>? PossibleChangesAppointments = await _AppointmentGetterService.GetAppointmentsByPossibleStatusChange(null);
+
+            if(PossibleChangesAppointments != null)
+            {
+                List<AppointmentResponse>? appointmentResponseUpdatedStatusList = await _AppointmentUpdaterService.UpdateAppointmentStatus(PossibleChangesAppointments.Select(temp => temp.ToAppointmentUpdateRequest()).ToList());
+            }
+               
             if (searchString != null)
             {
+
+                if (searchBy == nameof(AppointmentResponse.AppointmentTime))
+                {
+                    searchString = DateTime.Parse(searchString).ToString("yyyy-MM-dd");
+                }
+
                 AppointmentList = await _AppointmentGetterService.GetFilterdAppointments(searchBy, searchString);
 
                 ViewBag.CurrentSearchString = searchString;
@@ -111,7 +125,11 @@ namespace OdontoControl.Controllers
         {
             AddCssFilesHelper.AddCssFiles(controller: this, "manager.css", "form.css");
             AddJsFilesHelper.AddJsFiles(controller: this, "availableHours.js");
+
             ViewBag.PatientOrDentistID = PatientOrDentistID;
+
+            string previousUrl = Request.Headers["Referer"].ToString();
+            TempData["previousUrl"] = previousUrl;
 
             await AddDefaultConfigPostPutActionMethod(PatientOrDentistID);
 
@@ -133,6 +151,8 @@ namespace OdontoControl.Controllers
                 return View(Appointment);
             }
 
+            string previousUrl = TempData["previousUrl"]!.ToString()!;
+
             AppointmentResponse AppointmentResponse = await _AppointmentAdderService.AddAppointment(Appointment);
 
             if (AppointmentResponse == null)
@@ -142,7 +162,7 @@ namespace OdontoControl.Controllers
 
             TempData["Success"] = "Consulta adicionada com sucesso";
 
-            return RedirectToAction("ListAppointments");
+            return Redirect(previousUrl);
         }
 
         [HttpGet("{ID}")]
@@ -281,40 +301,6 @@ namespace OdontoControl.Controllers
 
                 return RedirectToAction("ListAppointments");
             }
-        }
-
-        [HttpPost("{ID}/{appointmentNewStatus}")]
-        [HttpPost("{appointmentNewStatus}")]
-        public async Task<IActionResult> ChangeAppoitmentStatus(Guid? ID, string? appointmentNewStatus)
-        {
-            if (!ID.HasValue)
-            {
-                return BadRequest("ID não fornecido.");
-            }
- 
-            AppointmentResponse? appointmentToChangeStatus = await _AppointmentGetterService.GetAppointmentById(ID);
-
-            if (appointmentToChangeStatus == null)
-            {
-                return BadRequest("Erro ao encontrar Consulta.");
-            }
-
-            appointmentToChangeStatus.Status = appointmentNewStatus;
-
-            AppointmentResponse? appointmentUpdated = await _AppointmentUpdaterService.UpdateAppointment(appointmentToChangeStatus.ToAppointmentUpdateRequest());
-
-            string referer = Request.Headers["Referer"].ToString();
-
-            if(appointmentNewStatus == AppointmentStatusOptions.Pago.ToString())
-                TempData["Success"] = "Consulta paga com sucesso";
-
-            if (!string.IsNullOrEmpty(referer))
-                if (referer.Contains("UpdateFinishedAppointment"))
-                    return RedirectToAction("UpdateFinishedAppointment", new { ID = ID });
-
-            TempData["AppointmentID"] = ID;
-
-            return RedirectToAction("Daily", "Home");
         }
 
         [HttpGet]
@@ -520,6 +506,8 @@ namespace OdontoControl.Controllers
                    Value = temp
                });
         }
+
+       
 
         private async Task AddingPatientsAndDentistBasedIfSelected(PatientResponse? patient, DentistResponse? dentist, ApplicationUser? user, Guid? PatientOrDentistID)
         {

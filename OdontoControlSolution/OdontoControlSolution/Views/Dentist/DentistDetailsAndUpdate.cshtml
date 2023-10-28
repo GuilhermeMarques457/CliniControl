@@ -1,0 +1,183 @@
+﻿@model DentistUpdateRequest
+
+@{
+    await Html.RenderPartialAsync("_ShowSuccessError");
+}
+
+<div class="grid grid--2--cols gap-bg card-details-box details-box mg-bt-bg">
+    <div class="card-full-data-body card-data flex-align-center flex-column flex-justify-center flex">
+        <div class="w-100 flex flex-column gap-bg">
+            <div class="details-card">
+                <div class="flex flex-spaced flex-align-center mg-bt-md">
+                    <h3 class="heading-tertiary title-decoration">Detalhes do dentista</h3>
+                  
+                </div>
+                <div class="flex flex-center flex-spaced">
+                    <div class="card-full-data-text flex flex-column gap-sm">
+                        <div class="card-full-data flex flex-align-center gap-sm">
+                            <i class="ph ph-user appointment-icon"></i>
+                            <p>
+                                Dentista: <span class="text-gray">@Model?.DentistName</span>
+                            </p>
+                        </div>
+                        
+                        <div class="card-full-data flex flex-align-center gap-sm">
+                            <i class="ph ph-phone appointment-icon"></i>
+                            <p>
+                                Telefone: <span class="text-gray">@Model?.PhoneNumber</span>
+                            </p>
+                        </div>
+
+                        <div class="card-full-data flex flex-align-center gap-sm">
+                            <i class="ph ph-wrench appointment-icon"></i>
+                            <p>
+                                Nome do gerenciador: <span class="text-gray">@Model?.Manager?.PersonName</span>
+                            </p>
+                        </div>
+
+                        <div class="card-full-data flex flex-align-center gap-sm">
+                            <i class="ph ph-clock appointment-icon"></i>
+                            <p>
+                                Intervalo de trabalho: <span class="text-gray">@Model?.StartTime - @Model?.EndTime </span>
+                            </p>
+                        </div>
+                       
+                        <div class="card-full-data flex flex-align-center gap-sm">
+                            <i class="ph ph-currency-dollar-simple appointment-icon"></i>
+                            <p>
+                                Dinheiro Arrecadado: <span class="text-gray">R$ @ViewBag.MoneyExpended</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="img-update-box img-responsive-box img-responsive-box-width">
+                        <img src="@Model?.PhotoPath">
+                    </div>
+                </div>
+
+            </div>
+            <section class="form-section form-details-section">
+                <form asp-action="DentistDetailsAndUpdate" asp-route-ID="" enctype="multipart/form-data" asp-controller="Dentist" method="post" class="form-box form-details">
+                    <input type="hidden" value="@ViewBag.DentistID" name="ID" />
+
+                    <div class="flex flex-spaced small-form-heading flex-align-center">
+                        <h3 class="heading-tertiary  title-decoration">Atualizar</h3>
+                        <i class="ph ph-tooth title-icon"></i>
+                    </div>
+                    <div class="form-inputs-box">
+                        <div class="input-box">
+                            <i class="ph ph-user input-icon"></i>
+                            <label class="form-label" asp-for="DentistName">Nome do dentista</label>
+                            <input class="form-input" asp-for="DentistName" placeholder="Dr. Aurelio Cunha" />
+
+                            <span class="input-decoration"></span>
+                        </div>
+                        <div class="input-validation-message-box">
+                            <span asp-validation-for="DentistName" class="validate-message"></span>
+                        </div>
+                        <div class="input-box">
+                            <i class="ph ph-phone input-icon"></i>
+                            <label class="form-label" asp-for="PhoneNumber">Telefone</label>
+                            <input class="form-input" asp-for="PhoneNumber" placeholder="(18) 99999-9999" />
+                            <span class="input-decoration"></span>
+                        </div>
+                        <div class="input-validation-message-box">
+                            <span asp-validation-for="PhoneNumber" class="validate-message"></span>
+                        </div>
+                        <div class="input-box-duo">
+                            <div class="input-box">
+                                <i class="ph ph-sign-in input-icon-box-duo"></i>
+                                <label class="form-label" asp-for="StartTime">Entrada</label>
+                                <input class="form-input" asp-for="StartTime" placeholder="07:00" />
+                                <span class="input-decoration-box-duo"></span>
+                                <div class="input-validation-message-box">
+                                    <span asp-validation-for="StartTime" class="validate-message"></span>
+                                </div>
+                            </div>
+
+                            <div class="input-box">
+                                <i class="ph ph-sign-out input-icon-box-duo"></i>
+
+                                <label class="form-label" asp-for="EndTime">Saída</label>
+                                <input class="form-input" asp-for="EndTime" placeholder="18:00" />
+
+                                <span class="input-decoration-box-duo"></span>
+                                <div class="input-validation-message-box">
+                                    <span asp-validation-for="EndTime" class="validate-message"></span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="input-box">
+                            <div class="input-file flex flex-justify-center flex-align-center">
+                                <div class="info-file-box">
+                                    <div class="default-user-photo flex flex-center">
+                                        <div class="change-photo-input-file-box">
+                                            <img src="@Model?.PhotoPath" class="change-photo-input-file" />
+                                        </div>
+
+                                    </div>
+                                    <div class="input-file-info">
+                                        <p class="text-send-photo"><span class="text-primary">Clique</span> ou <span class="text-primary">Arraste</span> sua photo aqui</p>
+                                        <p class="text-send-info text-gray">Suporta <b>JPG</b> e <b>PNG</b></p>
+                                    </div>
+                                </div>
+                                <input type="file" class="send-img-input hidden" name="dentistImage" />
+                            </div>
+                        </div>
+
+                        <div class="buttons-box">
+                            <button class="btn-form btn-send">Cadastrar <i class="ph ph-paper-plane-tilt"></i></button>
+                            <button class="btn-form btn-reset" type="reset">Limpar <i class="ph ph-broom"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+    <div class="appointment-list flex flex-column gap-md">
+        <h3 class="heading-tertiary list-tittle-appointment title-decoration">Consultas do Dentista</h3>
+        <div>
+            @foreach (AppointmentResponse appointmentResponse in ViewBag.DentistAppointments)
+            {
+
+                string StatusAppointment = appointmentResponse?.Status == AppointmentStatusOptions.Agendado.ToString() ? "UpdateAppointment" : "UpdateFinishedAppointment";
+
+                <a asp-controller="Appointment" class="appointment-item flex flex-align-center flex-spaced" asp-action="@StatusAppointment" asp-route-id="@appointmentResponse?.ID">
+                    <div class="flex gap-sm flex-align-center w-60">
+                        <div class="img-appoitment-item img-responsive-box circle-round img-responsive-box-width flex gap-sm flex-align-center">
+                            @if (appointmentResponse?.Patient?.PhotoPath == null)
+                            {
+                                <img src="/imgs/default-user.jpg" />
+                            }
+                            else
+                            {
+                                <img src="@appointmentResponse?.Patient?.PhotoPath">
+                            }
+                        </div>
+                        <p class="appointment-entity-name">@appointmentResponse?.Patient?.PatientName</p>
+                    </div>
+                    <div class="flex flex-align-center flex-spaced gap-bg w-40">
+                        @if (appointmentResponse?.Price != null)
+                        {
+                            <p class="flex flex-align-center gap-sm appointment-price-list"><i class="ph ph-currency-dollar-simple appointment-list-icon"></i> @appointmentResponse?.Price,00</p>
+                        }
+                        else
+                        {
+                            <p class="flex flex-align-center gap-sm appointment-price-list"><i class="ph ph-currency-dollar-simple appointment-list-icon"></i> Gratis </p>
+                        }
+
+                        <p class="status-appointment-list status-paid @appointmentResponse?.Status">@appointmentResponse?.Status</p>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" asp-fallback-test="window.jQuery" asp-fallback-src="~/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.4/jquery.validate.min.js" asp-fallback-test="window.jQuery.validator" asp-fallback-src="~/jquery.validate.min.js" integrity="sha512-FOhq9HThdn7ltbK8abmGn60A/EMtEzIzv1rvuh+DqzJtSGq8BRdEN0U+j0iKEIffiw/yEtVuladk6rsG4X6Uqg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" asp-fallback-test="window.jQuery.validator.unobtrusive" asp-fallback-src="~/jquery.validate.unobtrusive.min" integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}

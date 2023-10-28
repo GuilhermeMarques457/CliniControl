@@ -49,9 +49,9 @@ namespace OdontoControl.Core.Services.AppointmentService
                 (nameof(AppointmentResponse.Status), SortOrderOptions.DESC)
                     => allAppointment?.OrderByDescending(temp => temp.Status, StringComparer.OrdinalIgnoreCase).ToList(),
                 (nameof(AppointmentResponse.AppointmentTime), SortOrderOptions.ASC)
-                    => allAppointment?.OrderBy(temp => temp.AppointmentTime.ToString(), StringComparer.OrdinalIgnoreCase).ToList(),
+                    => allAppointment?.OrderBy(temp => temp.AppointmentTime!.Value).ToList(),
                 (nameof(AppointmentResponse.AppointmentTime), SortOrderOptions.DESC)
-                    => allAppointment?.OrderByDescending(temp => temp.AppointmentTime.ToString(), StringComparer.OrdinalIgnoreCase).ToList(),
+                    => allAppointment?.OrderByDescending(temp => temp.AppointmentTime!.Value.ToString()).ToList(),
                 (nameof(AppointmentResponse.ProcedureType), SortOrderOptions.ASC)
                     => allAppointment?.OrderBy(temp => temp.ProcedureType, StringComparer.OrdinalIgnoreCase).ToList(),
                 (nameof(AppointmentResponse.ProcedureType), SortOrderOptions.DESC)

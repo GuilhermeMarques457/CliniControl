@@ -61,29 +61,29 @@
         <tbody class="table-body">
             @foreach (var item in Model)
             {
-                <tr class="table-row-body">
+                <tr class="table-row-body" onclick="window.location.href='/Dentist/DentistDetailsAndUpdate/@item?.ID'">
                     <td class="table-column">
-                        <p class="table-item">@item.DentistName</p>
+                        <p class="table-item">@item?.DentistName</p>
                     </td>
                     <td class="table-column">
-                        <p class="table-item">@item.PhoneNumber</p>
+                        <p class="table-item">@item?.PhoneNumber</p>
                     </td>
                     <td class="table-column">
-                        <p class="table-item">@item.StartTime</p>
+                        <p class="table-item">@item?.StartTime</p>
                     </td>
                     <td class="table-column">
-                        <p class="table-item">@item.EndTime</p>
+                        <p class="table-item">@item?.EndTime</p>
                     </td>
                     <td class="table-column">
-                        <p class="table-item">@item!.Manager!.PersonName</p>
+                        <p class="table-item">@item?.Manager?.PersonName</p>
                     </td>
                     <td class="table-column">
                         <div class="flex gap-sm flex-align-center">
-                            <a asp-controller="Dentist" class="btn-default btn-option" asp-action="UpdateDentist" asp-route-id="@item.ID"><i class="ph ph-gear"></i></a>
+                            <a asp-controller="Dentist" class="btn-default btn-option" asp-action="UpdateDentist" asp-route-id="@item!.ID"><i class="ph ph-gear"></i></a>
                             <p class="hidden item-name">@item.DentistName</p>
                             <p class="hidden item-id">@item.ID</p>
                             <button class="btn-modal btn-warning btn-option"><i class="ph ph-trash-simple"></i></button>
-                            <a class="btn btn-full" asp-action="NewAppointment" asp-controller="Appointment" asp-route-PatientOrDentistID="@item?.ID">Agendar <i class="ph ph-calendar-check"></i></a>
+                            <a class="btn btn-full" asp-action="NewAppointment" asp-controller="Appointment" asp-route-PatientOrDentistID="@item!.ID">Agendar <i class="ph ph-calendar-check"></i></a>
                         </div>
                     </td>
                 </tr>

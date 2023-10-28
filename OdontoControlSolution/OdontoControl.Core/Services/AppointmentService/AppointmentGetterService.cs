@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Twilio.TwiML.Messaging;
 
 namespace OdontoControl.Core.Services.AppointmentService
 {
@@ -88,7 +89,7 @@ namespace OdontoControl.Core.Services.AppointmentService
                             temp.Status!.Contains(searchString)),
                     nameof(AppointmentResponse.AppointmentTime) =>
                         await _repository.GetFilteredAppointments(temp =>
-                            temp.AppointmentTime.ToString()!.Contains(searchString)),
+                            temp.AppointmentTime!.ToString()!.Contains(searchString)),
                     nameof(AppointmentResponse.StartTime) =>
                         await _repository.GetFilteredAppointments(temp =>
                             temp.StartTime!.Contains(searchString)),
@@ -98,6 +99,9 @@ namespace OdontoControl.Core.Services.AppointmentService
                     nameof(AppointmentResponse.ProcedureType) =>
                         await _repository.GetFilteredAppointments(temp =>
                             temp.ProcedureType!.Contains(searchString)),
+                    nameof(AppointmentResponse.Price) =>
+                         await _repository.GetFilteredAppointments(temp =>
+                            temp.Price!.ToString()!.Contains(searchString)),
                     nameof(AppointmentResponse.Patient.PhoneNumber) =>
                        await _repository.GetFilteredAppointments(temp =>
                            temp.Patient!.PhoneNumber!.Contains(searchString)),
@@ -162,6 +166,29 @@ namespace OdontoControl.Core.Services.AppointmentService
                 return null;
 
             return appointments.Select(temp => temp.ToAppointmentResponse()).ToList();
+        }
+
+        public async Task<List<AppointmentResponse>?> GetAppointmentsByPossibleStatusChange(DateTime? day)
+        {
+            List<Appointment>? appointments = await _repository.GetAppointmentsByPossibleStatusChange(day);
+
+            if (appointments == null)
+                return null;
+
+            return appointments.Select(temp => temp.ToAppointmentResponse()).ToList();
+        }
+
+        public async Task<List<AppointmentResponse>?> GetAppointmentsByDentistId(Guid? dentistID)
+        {
+            if (dentistID == null)
+                return null;
+
+            List<Appointment>? appointmentList = await _repository.GetAppointmentsByDentistId(dentistID);
+
+            if (appointmentList == null)
+                return null;
+
+            return appointmentList.Select(temp => temp.ToAppointmentResponse()).ToList();
         }
     }
 }

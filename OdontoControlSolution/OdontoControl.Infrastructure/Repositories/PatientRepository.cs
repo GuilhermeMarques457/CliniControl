@@ -49,23 +49,24 @@ namespace OdontoControl.Infrastructure.Repositories
 
         public async Task<Patient?> GetPatientById(Guid? PatientID)
         {
-            return await _context.Patients.Include("Manager").FirstOrDefaultAsync(temp => temp.ID == PatientID);
+            return await _context.Patients.Include("Manager").AsNoTracking().FirstOrDefaultAsync(temp => temp.ID == PatientID);
         }
 
         public async Task<Patient?> UpdatePatient(Patient Patient)
         {
-            _context.ChangeTracker.Clear();
+            //_context.ChangeTracker.Clear();
 
             Patient? matchingPatient = await GetPatientById(Patient.ID);
 
             if (matchingPatient == null) return null;
-           
+
+            if (Patient.PhotoPath != null) matchingPatient.PhotoPath = Patient.PhotoPath;
+
             matchingPatient.Gender = Patient.Gender;
             matchingPatient.PatientName = Patient.PatientName;
             matchingPatient.PhoneNumber = Patient.PhoneNumber;
             matchingPatient.CPF = Patient.CPF;
-            matchingPatient.PhotoPath = Patient.PhotoPath;
-   
+
             _context.Patients.Update(matchingPatient);
 
             await _context.SaveChangesAsync();

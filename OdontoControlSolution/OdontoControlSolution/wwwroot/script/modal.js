@@ -8,7 +8,7 @@ const modalMessage = document.querySelector('.modal-message');
 // Places where my modals are
 const table = document.querySelector('.table-body');
 const appointmentContainer = document.querySelector(".appointments-list-container");
-const appoinementDetails = document.querySelector(".appointment-details-box"); 
+const appoinementDetails = document.querySelector(".card-details-box"); 
 
 
 const closeModal = function () {

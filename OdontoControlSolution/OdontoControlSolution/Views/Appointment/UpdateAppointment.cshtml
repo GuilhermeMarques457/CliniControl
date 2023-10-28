@@ -18,6 +18,16 @@
 
         <div class="form-inputs-box">
             <div class="input-box">
+                <i class="ph ph-currency-dollar-simple input-icon"></i>
+                <label class="form-label" asp-for="Price">Valor da Consulta</label>
+                <input class="form-input" placeholder="150.00" asp-for="Price" />
+
+                <span class="input-decoration"></span>
+            </div>
+            <div class="input-validation-message-box">
+                <span asp-validation-for="Price" class="validate-message"></span>
+            </div>
+            <div class="input-box">
                 <i class="ph ph-calendar input-icon"></i>
                 <label class="form-label" asp-for="AppointmentTime">Data da consulta</label>
                 <input class="form-input" asp-for="AppointmentTime" id="AppointmentDay" />

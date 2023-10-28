@@ -33,13 +33,15 @@ namespace OdontoControl.UI.Filters.ActionFilters
                     { nameof(AppointmentResponse.StartTime), "Hora da entrada" },
                     { nameof(AppointmentResponse.EndTime), "Hora da saída" },
                     { nameof(AppointmentResponse.ProcedureType), "Procedimento" },
+                    { nameof(AppointmentResponse.Price), "Preço" },
                     { nameof(AppointmentResponse.Status), "Status" },
+                    { nameof(AppointmentResponse.AppointmentTime), "Data da consulta" },
                 };
 
-                if(controller is AppointmentController)
-                {
-                    controller.ViewBag.SearchFields.Add(nameof(AppointmentResponse.AppointmentTime), "Data da consulta");
-                }
+                //if(controller is AppointmentController)
+                //{
+                //    controller.ViewBag.SearchFields.Add(nameof(AppointmentResponse.AppointmentTime), "Data da consulta");
+                //}
             }
 
            

@@ -5,56 +5,62 @@
 }
 
 
-<div class="grid grid--2--cols gap-md appointment-details-box">
+<div class="grid grid--2--cols gap-md card-details-box">
     <div class="flex flex-column gap-md">
-        <div class="appointment-full-data-body flex flex-align-center flex-spaced">
-            <div class="appointment-full-data-text flex flex-column gap-sm">
+        <div class="card-full-data-body flex flex-align-center flex-spaced">
+            <div class="card-full-data-text flex flex-column gap-sm">
                 <h3 class="heading-tertiary title-decoration">Detalhes da consulta</h3>
-                <div class="appointment-full-data flex flex-align-center gap-sm">
+                <div class="card-full-data flex flex-align-center gap-sm">
                     <i class="ph ph-user appointment-icon"></i>
                     <p>
                         Paciente: <span class="text-gray">@Model?.Patient?.PatientName</span>
                     </p>
                 </div>
-                <div class="appointment-full-data flex flex-align-center gap-sm">
+                <div class="card-full-data flex flex-align-center gap-sm">
                     <i class="ph ph-tooth appointment-icon"></i>
                     <p>
                         Dentista: <span class="text-gray">@Model?.Dentist?.DentistName</span>
                     </p>
                 </div>
-                <div class="appointment-full-data flex flex-align-center gap-sm">
+                <div class="card-full-data flex flex-align-center gap-sm">
                     <i class="ph ph-calendar-blank appointment-icon"></i>
                     <p>
                         Data da Consulta: <span class="text-gray">@Model?.AppointmentTime!.Value.ToString().Split(" ")[0]</span>
                     </p>
                 </div>
-                <div class="appointment-full-data flex flex-align-center gap-sm">
+                <div class="card-full-data flex flex-align-center gap-sm">
                     <i class="ph ph-timer appointment-icon"></i>
                     <p>
                         Duração: <span class="text-gray">@Model?.StartTime</span> - <span class="text-gray">@Model?.EndTime</span>
                     </p>
                 </div>
-                <div class="appointment-full-data flex flex-align-center gap-sm">
+                <div class="card-full-data flex flex-align-center gap-sm">
+                    <i class="ph ph-currency-dollar-simple appointment-icon"></i>
+                    <p>
+                        Preço: <span class="text-gray">@Model?.Price</span>
+                    </p>
+                </div>
+                <div class="card-full-data flex flex-align-center gap-sm">
                     <i class="ph ph-stethoscope appointment-icon"></i>
                     <p>
                         Prodedimento: <span class="text-gray">@Model?.ProcedureType</span>
                     </p>
                 </div>
-                <div class="appointment-full-data flex flex-align-center gap-sm">
+                <div class="card-full-data flex flex-align-center gap-sm">
                     <i class="ph ph-chat-circle-dots appointment-icon"></i>
                     <p>
                         Comentários: <span class="text-gray">@(Model?.Comments != null ? Model?.Comments : "Não há comentarios a essa consulta")</span>
                     </p>
                 </div>
-                <div class="appointment-full-data flex flex-align-center gap-sm">
+                <div class="card-full-data flex flex-align-center gap-sm">
                     <i class="ph ph-info appointment-icon"></i>
                     <p>
                         Status: <span class="text-gray">@Model?.Status</span>
                     </p>
                 </div>
             </div>
-            <div class="patient-img-update-box">
-                <img src="~/imgs/default-user.jpg" class="patient-img-update">
+            <div class="patient-img-update-box img-responsive-box img-responsive-box-width">
+                <img src="@Model?.Patient?.PhotoPath">
             </div>
         </div>
         <div class="add-comments-box">

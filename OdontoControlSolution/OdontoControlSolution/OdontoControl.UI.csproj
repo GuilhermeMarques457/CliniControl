@@ -56,7 +56,6 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Dentist\ListDentists.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Dentist\NewDentist.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Dentist\UpdateDentist.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\_GridColumnHeaderAppointments.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\_GridColumnHeaderDentists.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\_GridColumnHeaderPatients.cshtml" />
@@ -64,10 +63,6 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Dentist\NewDentist.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Dentist\UpdateDentist.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

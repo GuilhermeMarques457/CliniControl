@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using OdontoControl.Core.Domain.Entities;
 using OdontoControl.Core.DTO.AppointmentDTO;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,8 @@ namespace OdontoControl.Core.ServiceContracts.AppointmentContracts
 {
     public interface IAppointmentUpdaterService
     {
-        Task<AppointmentResponse> UpdateAppointment(AppointmentUpdateRequest appointment);
+        Task<AppointmentResponse> UpdateAppointment(AppointmentUpdateRequest? appointment);
         Task<AppointmentResponse?> AddExamToAppointment(Guid? appointmentID, IFormFile? formFile, string? imagePathFolder);
+        Task<List<AppointmentResponse>?> UpdateAppointmentStatus(List<AppointmentUpdateRequest>? appointmentList);
     }
 }

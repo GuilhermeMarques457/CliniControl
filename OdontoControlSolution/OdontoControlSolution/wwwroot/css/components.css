@@ -179,6 +179,31 @@
     font-size: 1.8rem;
 }
 
+
+/* Image responsive */
+
+.img-responsive-box {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content:center
+
+}
+
+.img-responsive-box-height img {
+    height: 100%;
+}
+
+.img-responsive-box-width img {
+    width: 100%;
+}
+
+    .img-responsive-box img {
+        position: absolute;
+    }
+
+
 /* Table heading/searching */
 
     /* Searching */
@@ -350,6 +375,10 @@
         padding-left: 5rem;
     }
 
+    .table-body{
+        background-color: var(--white-color);
+    }
+
     .table-item{
         overflow: hidden;
     }
@@ -360,6 +389,7 @@
     }
 
     .table-row-body:hover {
+        transform: translateY(-0.2rem);
         background-color: var(--primary-color-lighter) !important;
     }
 
@@ -451,7 +481,7 @@
 
 /* Modal window */
 .modal {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -464,7 +494,7 @@
 }
 
 .overlay {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;

@@ -55,6 +55,7 @@ namespace OdontoControl.Core.DTO.DentistDTO
                 StartTime = StartTime,
                 EndTime = EndTime,
                 PhotoPath = PhotoPath,
+                Manager = Manager,
             };
         }
 

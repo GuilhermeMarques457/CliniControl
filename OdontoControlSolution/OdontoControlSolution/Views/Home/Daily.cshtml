@@ -37,40 +37,6 @@
     <div class="appointments-list-container grid grid--3--cols gap-bg">
         @foreach (AppointmentResponse appointment in Model)
         {
-            DateTime? dateStartTheAppoitment = appointment.AppointmentTime;
-
-            if (appointment.StartTime != null)
-                dateStartTheAppoitment = dateStartTheAppoitment!.Value.Add((TimeSpan)appointment.StartTime);
-
-            DateTime? dateEndTheAppoitment = appointment.AppointmentTime;
-
-            if (appointment.EndTime != null)
-                dateEndTheAppoitment = dateEndTheAppoitment!.Value.Add((TimeSpan)appointment.EndTime);
-
-            @if (appointment.Status == AppointmentStatusOptions.Pago.ToString())
-            {
-
-            }
-            else if (dateStartTheAppoitment < DateTime.Now && dateEndTheAppoitment > DateTime.Now && appointment.Status != AppointmentStatusOptions.Atendimento.ToString())
-            {
-                <form asp-action="ChangeAppoitmentStatus"
-                      asp-controller="Appointment"
-                      asp-route-ID="@appointment.ID"
-                      asp-route-appointmentNewStatus="Atendimento"
-                      method="post"
-                      class="form-change-status hidden">
-                </form>
-            }
-            else if (dateEndTheAppoitment < DateTime.Now && appointment.Status != AppointmentStatusOptions.Receber.ToString())
-            {
-                <form asp-action="ChangeAppoitmentStatus"
-                      asp-controller="Appointment"
-                      asp-route-ID="@appointment.ID"
-                      asp-route-appointmentNewStatus="Receber"
-                      method="post"
-                      class="form-change-status hidden">
-                </form>
-            }
             <div class="appointment-card">
                 <div class="appointment-header flex flex-spaced flex-align-center">
                     <div class="appointment-client-info-box flex gap-md">

@@ -13,6 +13,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using OdontoControl.Core.Enums;
 
 namespace OdontoControl.Core.Services.AppointmentService
 {
@@ -57,7 +58,7 @@ namespace OdontoControl.Core.Services.AppointmentService
             }
         }
 
-        public async Task<AppointmentResponse> UpdateAppointment(AppointmentUpdateRequest appointment)
+        public async Task<AppointmentResponse> UpdateAppointment(AppointmentUpdateRequest? appointment)
         {
             if (appointment == null)
                 throw new ArgumentNullException(nameof(appointment));
@@ -73,6 +74,52 @@ namespace OdontoControl.Core.Services.AppointmentService
                 throw new ArgumentException(nameof(updatedAppointment));
 
             return updatedAppointment.ToAppointmentResponse();
+        }
+
+        public async Task<List<AppointmentResponse>?> UpdateAppointmentStatus(List<AppointmentUpdateRequest>? appointmentList)
+        {
+            if (appointmentList == null)
+                return null;
+
+            List<Appointment>? appointmentUpdatedList = new List<Appointment>();
+
+            foreach (var appointment in appointmentList)
+            {
+                DateTime? dateStartTheAppoitment = appointment.AppointmentTime;
+
+                if (appointment.StartTime != null)
+                    dateStartTheAppoitment = dateStartTheAppoitment!.Value.Add((TimeSpan)appointment.StartTime);
+
+                DateTime? dateEndTheAppoitment = appointment.AppointmentTime;
+
+                if (appointment.EndTime != null)
+                    dateEndTheAppoitment = dateEndTheAppoitment!.Value.Add((TimeSpan)appointment.EndTime);
+
+                Appointment? appointmentUpdated = null;
+
+                if (dateStartTheAppoitment < DateTime.Now && dateEndTheAppoitment > DateTime.Now && appointment.Status != AppointmentStatusOptions.Atendimento)
+                {
+                    appointment.Status = AppointmentStatusOptions.Atendimento;
+
+                    appointmentUpdated = await _repository.UpdateAppointmentStatus(appointment.ToAppointment());
+                }
+                else if (dateEndTheAppoitment < DateTime.Now && appointment.Status != AppointmentStatusOptions.Receber)
+                {
+                    appointment.Status = AppointmentStatusOptions.Receber;
+
+                    appointmentUpdated = await _repository.UpdateAppointmentStatus(appointment.ToAppointment());
+                }
+
+                if(appointmentUpdated != null)
+                {
+                    appointmentUpdatedList!.Add(appointmentUpdated);
+                } 
+            }
+
+            if (appointmentUpdatedList == null)
+                return null;
+
+            return appointmentUpdatedList.Select(temp => temp.ToAppointmentResponse()).ToList();
         }
     }
 }

@@ -29,6 +29,7 @@ namespace OdontoControl.Core.Domain.Entities
         public DateTime? AppointmentTime { get; set;}
         public string? StartTime { get; set; }
         public string? EndTime { get; set; }
+        public double? Price { get; set; }
         public bool? Reminded { get; set; }
         public string? ExamsPath { get; set; }
 

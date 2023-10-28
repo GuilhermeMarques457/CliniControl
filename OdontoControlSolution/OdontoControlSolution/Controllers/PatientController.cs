@@ -128,6 +128,7 @@ namespace OdontoControl.Controllers
             if (!ModelState.IsValid)
             {
                 AddCssFilesHelper.AddCssFiles(controller: this, "form.css");
+                AddJsFilesHelper.AddJsFiles(controller: this, "showChangedPhoto.js");
 
                 AddPatientGenders();
 
@@ -152,7 +153,7 @@ namespace OdontoControl.Controllers
             }
             else
             {
-                patientResponse.PhotoPath = $"/imgs/default-user.png";
+                patientResponse.PhotoPath = $"/imgs/default-user.jpg";
                
             }
 
@@ -237,12 +238,9 @@ namespace OdontoControl.Controllers
         }
 
         [HttpGet("{ID}")]
-        public async Task<IActionResult> SeePatientDetails(Guid? ID)
+        public async Task<IActionResult> PatientDetailsAndUpdate(Guid? ID)
         {
             PatientResponse? PatientResponse = await _PatientGetterService.GetPatientById(ID);
-            List<AppointmentResponse>? patientAppointmentsResponse = await _AppointmentGetterService.GetAppointmentByPatientId(ID);
-
-            ViewBag.PatientAppointments = patientAppointmentsResponse;
 
             if (PatientResponse == null)
             {
@@ -251,45 +249,35 @@ namespace OdontoControl.Controllers
                 return RedirectToAction("ListPatients");
             }
 
-            return View(PatientResponse.ToPatientUpdateRequest());
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> UpdatePatient(Guid? ID)
-        {
-            AddCssFilesHelper.AddCssFiles(controller: this, "form.css");
-
-            AddPatientGenders();
-
-            ViewBag.PatientID = ID;
-
-            PatientResponse? PatientResponse = await _PatientGetterService.GetPatientById(ID);
-
-            if (PatientResponse == null)
-            {
-                ViewBag.Errors = "Algo deu errado ao encontrar o Paciente. Tente novamente mais tarde";
-
-                return RedirectToAction("ListPatients");
-            }
+            await AddPatientUpdateDetailsNeedData(ID);
 
             return View(PatientResponse.ToPatientUpdateRequest());
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdatePatient(PatientUpdateRequest Patient)
+        public async Task<IActionResult> PatientDetailsAndUpdate(PatientUpdateRequest Patient, IFormFile? patientImage)
         {
             if (!ModelState.IsValid)
             {
-                AddCssFilesHelper.AddCssFiles(controller: this, "form.css");
+                ViewBag.PatientID = Patient.ID;
 
-                AddPatientGenders();
+                await AddPatientUpdateDetailsNeedData(Patient.ID);
 
                 return View(Patient);
             }
 
-            PatientResponse? PatientResponse = await _PatientUpdaterService.UpdatePatient(Patient);
+            if (patientImage != null)
+            {
+                string webRootPath = _webHostEnvironment.WebRootPath;
 
-            if (PatientResponse == null)
+                await ManageImageProject.AddImage(patientImage, webRootPath, "imgs/patient-photos", Patient!.ID);
+
+                Patient.PhotoPath = $"/imgs/patient-photos/{Patient.ID}-{patientImage.FileName}";
+            }
+
+            PatientResponse? patientResponse = await _PatientUpdaterService.UpdatePatient(Patient);
+
+            if (patientResponse == null)
             {
                 TempData["Errors"] = "Algo deu errado ao atualizar o Paciente. Tente novamente mais tarde";
             }
@@ -327,6 +315,35 @@ namespace OdontoControl.Controllers
                    Text = temp,
                    Value = temp
                });
+        }
+
+        private async Task AddPatientUpdateDetailsNeedData(Guid? patientID)
+        {
+            AddCssFilesHelper.AddCssFiles(controller: this, "manager.css", "form.css");
+            AddJsFilesHelper.AddJsFiles(controller: this, "showChangedPhoto.js");
+
+            AddPatientGenders();
+
+            ViewBag.PatientID = patientID;
+
+            List<AppointmentResponse>? patientAppointmentsResponse = await _AppointmentGetterService.GetAppointmentByPatientId(patientID);
+
+            double? moneyExpeded = 0;
+
+            if(patientAppointmentsResponse != null)
+            {
+                patientAppointmentsResponse.ForEach(temp => {
+                    if (temp.Status != AppointmentStatusOptions.Agendado.ToString() && temp.Price != null)
+                    {
+                        moneyExpeded += temp.Price;
+                    }
+                });
+
+                ViewBag.MoneyExpended = moneyExpeded;
+            }
+           
+            ViewBag.PatientAppointments = patientAppointmentsResponse;
+
         }
     }
 }

@@ -20,8 +20,13 @@ body.dark-mode .btn-full:hover {
     background-color: #000;
 }
 
-.dark-mode .form-box{
-    background: var(--dark-gradient-theme);
+.dark-mode .form-box,
+.dark-mode .appointment-list,
+.dark-mode .details-card,
+.dark-mode .form-details,
+.dark-mode .details-card,
+.dark-mode .form-details {
+    background: var(--dark-gradient-theme) !important;
 }
 
 .dark-mode .closable-item {
@@ -41,7 +46,7 @@ body.dark-mode .btn-full:hover {
     background: var(--primary-dark-gradient);
 }
 
-.dark-mode .appointment-details-box {
+.dark-mode .card-details-box {
     background: var(--primary-dark-gradient);
 }
 
@@ -50,12 +55,12 @@ body.dark-mode .btn-full:hover {
 .dark-mode .btn-search,
 .dark-mode .input-search,
 .dark-mode .close-modal,
-.dark-mode .not-contacted-count
-{
+.dark-mode .not-contacted-count,
+.dark-mode .status-paid {
     color: var(--dark-color)
 }
 
-.dark-mode .table-row-body:hover {
+.dark-mode .table-row-body:has(:hover), .dark-mode .appointment-item:has(:hover) {
     background-color: var(--primary-color-darker) !important;
 }
 

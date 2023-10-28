@@ -27,7 +27,7 @@
 }
 
 <div class="table-container">
-    <table class="table table-10">
+    <table class="table table-11">
         <thead class="table-header">
             <tr class="table-row-header">
                 @await Html.PartialAsync("_GridColumnHeaderAppointments", new ViewDataDictionary(ViewData){
@@ -56,6 +56,11 @@
                 })
 
                 @await Html.PartialAsync("_GridColumnHeaderAppointments", new ViewDataDictionary(ViewData){
+                {"ColumnName", nameof(AppointmentResponse.Price)},
+                {"DisplayName", "Preço"},
+                })
+
+                @await Html.PartialAsync("_GridColumnHeaderAppointments", new ViewDataDictionary(ViewData){
                 {"ColumnName", nameof(AppointmentResponse.ProcedureType)},
                 {"DisplayName", "Procedimento"},
                 })
@@ -76,6 +81,13 @@
         <tbody class="table-body">
             @foreach (var item in Model)
             {
+                
+
+                @if (item.Status != AppointmentStatusOptions.Pago.ToString() && item.Status != AppointmentStatusOptions.Receber.ToString())
+                {
+                    
+                }
+
                 <tr class="table-row-body">
                     <td class="table-column">
                         <p class="table-item">@item.Patient?.PatientName</p>
@@ -93,6 +105,16 @@
                         <p class="table-item">@item?.AppointmentTime!.Value.ToShortDateString()</p>
                     </td>
                     <td class="table-column">
+                        @if (item?.Price == null)
+                        {
+                            <p class="table-item">Grátis</p>
+                        }
+                        else
+                        {
+                            <p class="table-item">@item.Price</p>
+                        }
+                    </td>
+                    <td class="table-column">
                         <p class="table-item">@item?.ProcedureType</p>
                     </td>
                     <td class="table-column">
@@ -107,24 +129,9 @@
 
                     </td>
                     <td class="table-column">
-                        @if (item?.Status == AppointmentStatusOptions.Agendado.ToString())
-                        {
-                            <p class="table-item ">
-                                <span class="status-paid scheaduled">Agendado</span>
-                            </p>
-                        }
-                        else if (item?.Status == AppointmentStatusOptions.Receber.ToString())
-                        {
-                            <p class="table-item">
-                                <span class="status-paid not-paid">Receber</span>
-                            </p>
-                        }
-                        else
-                        {
-                            <p class="table-item ">
-                                <span class="status-paid paid">Pago</span>
-                            </p>
-                        }
+                        <p class="table-item">
+                            <span class="status-paid @item?.Status">@item?.Status</span>
+                        </p>
                     </td>
                     <td class="table-column">
                         <div class="flex gap-sm w-60">
@@ -143,6 +150,7 @@
                     </td>
                 </tr>
             }
+
         </tbody>
     </table>
 

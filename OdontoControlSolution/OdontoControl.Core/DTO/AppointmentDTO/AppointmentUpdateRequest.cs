@@ -41,6 +41,10 @@ namespace OdontoControl.Core.DTO.AppointmentDTO
         [TimeSpanValidator(ErrorMessage = "Valor deve ser um horário válido")]
         public TimeSpan? EndTime { get; set; }
         public bool? Reminded { get; set; }
+        [Required(ErrorMessage = "Por favor o preço é obrigatório")]
+        [RegularExpression("^\\d+$", ErrorMessage = "Apenas numeros são permitidos")]
+        public double? Price { get; set; }
+
         public string? ExamsPath { get; set; }
 
 
@@ -59,6 +63,7 @@ namespace OdontoControl.Core.DTO.AppointmentDTO
                 EndTime = EndTime.ToString(),
                 Reminded = Reminded,
                 ExamsPath = ExamsPath,
+                Price = Price,
             };
         }
     }

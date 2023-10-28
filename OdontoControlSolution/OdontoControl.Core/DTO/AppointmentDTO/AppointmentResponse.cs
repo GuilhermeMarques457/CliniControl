@@ -30,6 +30,7 @@ namespace OdontoControl.Core.DTO.AppointmentDTO
         public TimeSpan? StartTime { get; set; }
         public TimeSpan? EndTime { get; set; }
         public string? ExamsPath { get; set; }
+        public double? Price { get; set; }
         public List<string>? ExamsPathList { get; set; }
 
         public override bool Equals(object? obj)
@@ -48,6 +49,7 @@ namespace OdontoControl.Core.DTO.AppointmentDTO
                 && AppointmentTime == appointment.AppointmentTime
                 && Comments == appointment.Comments
                 && ExamsPath == appointment.ExamsPath
+                && Price == appointment.Price
                 && ExamsPathList == appointment.ExamsPathList;
         }
 
@@ -69,7 +71,8 @@ namespace OdontoControl.Core.DTO.AppointmentDTO
                 Status = Enum.TryParse(Status, true, out AppointmentStatusOptions status) ? status : AppointmentStatusOptions.Agendado,
                 StartTime = StartTime,
                 EndTime = EndTime,
-                ExamsPath = ExamsPath
+                ExamsPath = ExamsPath,
+                Price = Price,
             };
         }
     }
@@ -91,6 +94,7 @@ namespace OdontoControl.Core.DTO.AppointmentDTO
                 EndTime = TimeSpan.Parse(appointment.EndTime!.ToString()),
                 Patient = appointment.Patient,
                 Dentist = appointment.Dentist,
+                Price = appointment.Price,
                 ExamsPath = appointment.ExamsPath,
                 ExamsPathList = !string.IsNullOrEmpty(appointment.ExamsPath)
                     ? JsonSerializer.Deserialize<List<string>>(appointment.ExamsPath)

@@ -3,11 +3,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using OdontoControl.Core.Domain.Entities;
 using OdontoControl.Core.Domain.IdentityEntities;
+using OdontoControl.Core.DTO.AppointmentDTO;
 using OdontoControl.Core.DTO.DentistDTO;
 using OdontoControl.Core.DTO.PatientDTO;
 using OdontoControl.Core.Enums;
 using OdontoControl.Core.Helpers;
+using OdontoControl.Core.ServiceContracts.AppointmentContracts;
 using OdontoControl.Core.ServiceContracts.ClinicContracts;
 using OdontoControl.Core.ServiceContracts.DentistContracts;
 using OdontoControl.UI.Filters.ActionFilters;
@@ -25,6 +28,7 @@ namespace OdontoControl.Controllers
         private readonly IDentistDeleterService _DentistDeleterService;
         private readonly IDentistGetterService _DentistGetterService;
         private readonly IClinicGetterService _ClinicGetterService;
+        private readonly IAppointmentGetterService _appointmentGetterService;
         private readonly IDentistSorterService _DentistSorterService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -33,12 +37,14 @@ namespace OdontoControl.Controllers
             IDentistUpdaterService DentistUpdaterService,
             IDentistDeleterService DentistDeleterService,
             IDentistGetterService DentistGetterService,
+            IAppointmentGetterService appointmentGetterService,
             IClinicGetterService clinicGetterService,
             IDentistSorterService dentistSorterService,
             IWebHostEnvironment webHostEnvironment,
             UserManager<ApplicationUser> userManager
         )
         {
+            _appointmentGetterService = appointmentGetterService;
             _DentistAdderService = DentistAdderService;
             _DentistDeleterService = DentistDeleterService;
             _DentistGetterService = DentistGetterService;
@@ -194,39 +200,49 @@ namespace OdontoControl.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> UpdateDentist(Guid? ID)
+        [HttpGet("{ID}")]
+        public async Task<IActionResult> DentistDetailsAndUpdate(Guid? ID)
         {
-            AddCssFilesHelper.AddCssFiles(controller: this, "form.css");
-
             DentistResponse? DentistResponse = await _DentistGetterService.GetDentistById(ID);
 
             if (DentistResponse == null)
             {
-                ViewBag.Errors = "Algo deu errado ao encontrar o dentista. Tente novamente mais tarde";
+                ViewBag.Errors = "Algo deu errado ao encontrar o Dentista. Tente novamente mais tarde";
 
                 return RedirectToAction("ListDentists");
             }
+
+            await AddDentistUpdateDetailsNeedData(ID);
 
             return View(DentistResponse.ToDentistUpdateRequest());
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateDentist(DentistUpdateRequest Dentist)
+        public async Task<IActionResult> DentistDetailsAndUpdate(DentistUpdateRequest Dentist, IFormFile? DentistImage)
         {
-
             if (!ModelState.IsValid)
             {
-                AddCssFilesHelper.AddCssFiles(controller: this, "form.css");
+                ViewBag.DentistID = Dentist.ID;
+
+                await AddDentistUpdateDetailsNeedData(Dentist.ID);
 
                 return View(Dentist);
+            }
+
+            if (DentistImage != null)
+            {
+                string webRootPath = _webHostEnvironment.WebRootPath;
+
+                await ManageImageProject.AddImage(DentistImage, webRootPath, "imgs/dentist-photos", Dentist!.ID);
+
+                Dentist.PhotoPath = $"/imgs/dentist-photos/{Dentist.ID}-{DentistImage.FileName}";
             }
 
             DentistResponse? DentistResponse = await _DentistUpdaterService.UpdateDentist(Dentist);
 
             if (DentistResponse == null)
             {
-                TempData["Errors"] = "Algo deu errado ao atualizar o dentista. Tente novamente mais tarde";
+                TempData["Errors"] = "Algo deu errado ao atualizar o Dentista. Tente novamente mais tarde";
             }
 
             TempData["Success"] = "Dentista alterada com sucesso";
@@ -250,6 +266,33 @@ namespace OdontoControl.Controllers
             }
 
             return null;
+        }
+
+        private async Task AddDentistUpdateDetailsNeedData(Guid? DentistID)
+        {
+            AddCssFilesHelper.AddCssFiles(controller: this, "manager.css", "form.css");
+            AddJsFilesHelper.AddJsFiles(controller: this, "showChangedPhoto.js");
+
+            ViewBag.DentistID = DentistID;
+
+            List<AppointmentResponse>? DentistAppointmentsResponse = await _appointmentGetterService.GetAppointmentsByDentistId(DentistID);
+
+            double? moneyExpeded = 0;
+
+            if (DentistAppointmentsResponse != null)
+            {
+                DentistAppointmentsResponse.ForEach(temp => {
+                    if (temp.Status != AppointmentStatusOptions.Agendado.ToString() && temp.Price != null)
+                    {
+                        moneyExpeded += temp.Price;
+                    }
+                });
+
+                ViewBag.MoneyExpended = moneyExpeded;
+            }
+
+            ViewBag.DentistAppointments = DentistAppointmentsResponse;
+
         }
 
     }

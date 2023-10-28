@@ -24,14 +24,16 @@ namespace OdontoControl.Controllers
     [Route("[controller]/[action]")]
     public class HomeController : Controller
     {
-        public IAppointmentGetterService _appointmentGetterService;
-        public IRequestedPatientAdderService _requestedPatientAdderService;
-        public IRequestedPatientGetterService _requestedPatientGetterService;
-        public IClinicGetterService _clinicalGetterService;
-        public IReminderGetterService _reminderGetterService;
-        public UserManager<ApplicationUser> _userManager;
+        private readonly IAppointmentGetterService _appointmentGetterService;
+        private readonly IAppointmentUpdaterService _appointmentUpdaterService;
+        private readonly IRequestedPatientAdderService _requestedPatientAdderService;
+        private readonly IRequestedPatientGetterService _requestedPatientGetterService;
+        private readonly IClinicGetterService _clinicalGetterService;
+        private readonly IReminderGetterService _reminderGetterService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public HomeController(IAppointmentGetterService appointmentGetterService,
+            IAppointmentUpdaterService appointmentUpdaterService,
             IRequestedPatientAdderService requestedPatientAdderService,
             IRequestedPatientGetterService requestedPatientGetterService,
             IReminderGetterService reminderGetterService,
@@ -39,6 +41,7 @@ namespace OdontoControl.Controllers
             UserManager<ApplicationUser> userManager)
         {
             _appointmentGetterService = appointmentGetterService;
+            _appointmentUpdaterService = appointmentUpdaterService;
             _requestedPatientAdderService = requestedPatientAdderService;
             _requestedPatientGetterService = requestedPatientGetterService;
             _clinicalGetterService = clinicGetterService;
@@ -94,6 +97,11 @@ namespace OdontoControl.Controllers
             {
                 ViewBag.CurrentSearchString = searchString;
 
+                if(searchBy == nameof(AppointmentResponse.AppointmentTime))
+                {
+                    searchString = DateTime.Parse(searchString).ToString("yyyy-MM-dd");
+                }
+
                 todayAppointments = await _appointmentGetterService.GetFilterdDayAppointments(searchBy, searchString, dateOfAppointments);
             }
 
@@ -103,6 +111,8 @@ namespace OdontoControl.Controllers
 
                 return View(new List<AppointmentResponse>());
             }
+
+            List<AppointmentResponse>? appointmentResponseUpdatedStatusList = await _appointmentUpdaterService.UpdateAppointmentStatus(todayAppointments.Select(temp => temp.ToAppointmentUpdateRequest()).ToList());
 
             return View(todayAppointments);
         }

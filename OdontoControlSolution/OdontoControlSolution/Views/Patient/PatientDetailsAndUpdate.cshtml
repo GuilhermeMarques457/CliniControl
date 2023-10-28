@@ -1,0 +1,181 @@
+﻿@model PatientUpdateRequest
+
+@{
+    await Html.RenderPartialAsync("_ShowSuccessError");
+}
+
+<div class="grid grid--2--cols gap-bg card-details-box details-box">
+    <div class="card-full-data-body card-data flex-align-center flex-column flex-justify-center flex">
+        <div class="w-100 flex flex-column gap-md flex-spaced">
+            <div class="details-card">
+                <div class="flex flex-spaced flex-align-center mg-bt-md">
+                    <h3 class="heading-tertiary title-decoration">Detalhes do paciente</h3>
+                </div>
+                <div class="flex flex-center flex-spaced">
+                    <div class="card-full-data-text flex flex-column gap-sm">
+                        <div class="card-full-data flex flex-align-center gap-sm">
+                            <i class="ph ph-user appointment-icon"></i>
+                            <p>
+                                Paciente: <span class="text-gray">@Model?.PatientName</span>
+                            </p>
+                        </div>
+                        <div class="card-full-data flex flex-align-center gap-sm">
+                            <i class="ph ph-identification-card appointment-icon"></i>
+                            <p>
+                                CPF: <span class="text-gray">@Model?.CPF</span>
+                            </p>
+                        </div>
+                        <div class="card-full-data flex flex-align-center gap-sm">
+                            <i class="ph ph-phone appointment-icon"></i>
+                            <p>
+                                Telefone: <span class="text-gray">@Model?.PhoneNumber</span>
+                            </p>
+                        </div>
+
+                        <div class="card-full-data flex flex-align-center gap-sm">
+                            <i class="ph ph-user-gear appointment-icon"></i>
+                            <p>
+                                Nome do gerenciador: <span class="text-gray">@Model?.Manager?.PersonName</span>
+                            </p>
+                        </div>
+                        <div class="card-full-data flex flex-align-center gap-sm">
+                            <i class="ph ph-gender-intersex appointment-icon"></i>
+                            <p>
+                                Genêro: <span class="text-gray">@Model?.Gender</span>
+                            </p>
+                        </div>
+                        <div class="card-full-data flex flex-align-center gap-sm">
+                            <i class="ph ph-currency-dollar-simple appointment-icon"></i>
+                            <p>
+                                Dinheiro Gasto: <span class="text-gray">R$ @ViewBag.MoneyExpended</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="img-update-box img-responsive-box img-responsive-box-width">
+                        <img src="@Model?.PhotoPath">
+                    </div>
+                </div>
+               
+            </div>
+            <section class="form-section form-details-section">
+                <form asp-action="PatientDetailsAndUpdate" asp-route-ID="" enctype="multipart/form-data" asp-controller="Patient" method="post" class="form-box form-details">
+                    <input type="hidden" value="@ViewBag.PatientID" name="ID" />
+
+                    <div class="flex flex-spaced small-form-heading flex-align-center">
+                        <h3 class="heading-tertiary  title-decoration">Atualizar</h3>
+                        <i class="ph ph-tooth title-icon"></i>
+                    </div>
+                    <div class="form-inputs-box">
+                        <div class="input-box">
+                            <i class="ph ph-user input-icon"></i>
+                            <label class="form-label" asp-for="PatientName">Nome do Paciente</label>
+                            <input class="form-input" asp-for="PatientName" />
+
+                            <span class="input-decoration"></span>
+                        </div>
+                        <div class="input-validation-message-box">
+                            <span asp-validation-for="PatientName" class="validate-message"></span>
+                        </div>
+                        <div class="input-box">
+                            <i class="ph ph-phone input-icon"></i>
+                            <label class="form-label" asp-for="PhoneNumber">Telefone</label>
+                            <input class="form-input" asp-for="PhoneNumber" />
+                            <span class="input-decoration"></span>
+                        </div>
+                        <div class="input-validation-message-box">
+                            <span asp-validation-for="PhoneNumber" class="validate-message"></span>
+                        </div>
+                        <div class="input-box">
+                            <i class="ph ph-identification-card input-icon"></i>
+                            <label class="form-label" asp-for="CPF">CPF</label>
+                            <input class="form-input" asp-for="CPF" />
+                            <span class="input-decoration"></span>
+                        </div>
+                        <div class="input-validation-message-box">
+                            <span asp-validation-for="CPF" class="validate-message"></span>
+                        </div>
+                        <div class="input-box">
+                            <i class="ph ph-gender-intersex input-icon"></i>
+                            <label class="form-label" asp-for="Gender">Gênero</label>
+                            <select asp-for="Gender" asp-items="@ViewBag.Genders" class="combo-box-input">
+                                <option value="">Por favor selecione um genero</option>
+                            </select>
+                            <span class="input-decoration"></span>
+                        </div>
+                        <div class="input-validation-message-box">
+                            <span asp-validation-for="Gender" class="validate-message"></span>
+                        </div>
+
+                        <div class="input-box">
+                            <div class="input-file flex flex-justify-center flex-align-center">
+                                <div class="info-file-box">
+                                    <div class="default-user-photo flex flex-center">
+                                        <div class="change-photo-input-file-box">
+                                            <img src="@Model?.PhotoPath" class="change-photo-input-file" />
+                                        </div>
+
+                                    </div>
+                                    <div class="input-file-info">
+                                        <p class="text-send-photo"><span class="text-primary">Clique</span> ou <span class="text-primary">Arraste</span> sua photo aqui</p>
+                                        <p class="text-send-info text-gray">Suporta <b>JPG</b> e <b>PNG</b></p>
+                                    </div>
+                                </div>
+                                <input type="file" class="send-img-input hidden" name="patientImage" />
+                            </div>
+                        </div>
+
+                        <div class="buttons-box">
+                            <button class="btn-form btn-send">Atualizar <i class="ph ph-paper-plane-tilt"></i></button>
+                            <button class="btn-form btn-reset" type="reset">Limpar <i class="ph ph-broom"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+    <div class="appointment-list flex flex-column gap-md">
+        <h3 class="heading-tertiary list-tittle-appointment title-decoration">Consultas do Paciente</h3>
+        <div>
+            @foreach (AppointmentResponse appointmentResponse in ViewBag.PatientAppointments)
+            {
+               
+                string StatusAppointment = appointmentResponse?.Status == AppointmentStatusOptions.Agendado.ToString() ? "UpdateAppointment" : "UpdateFinishedAppointment";
+                
+                <a asp-controller="Appointment" class="appointment-item flex flex-align-center flex-spaced" asp-action="@StatusAppointment" asp-route-id="@appointmentResponse?.ID">
+                    <div class="flex gap-sm flex-align-center w-60">
+                        <div class="img-appoitment-item img-responsive-box circle-round img-responsive-box-width flex gap-sm flex-align-center">
+                            @if (appointmentResponse?.Dentist?.PhotoPath == null)
+                            {
+                                <img src="/imgs/default-user.jpg" />
+                            }
+                            else
+                            {
+                                <img src="@appointmentResponse?.Dentist?.PhotoPath">
+                            }
+                        </div>
+                        <p class="appointment-entity-name">@appointmentResponse?.Dentist?.DentistName</p>
+                    </div>
+                    <div class="flex flex-align-center flex-spaced gap-bg w-40">
+                        @if(appointmentResponse?.Price != null)
+                        {
+                            <p class="flex flex-align-center gap-sm appointment-price-list"><i class="ph ph-currency-dollar-simple appointment-list-icon"></i> @appointmentResponse?.Price,00</p>
+                        }
+                        else
+                        {
+                            <p class="flex flex-align-center gap-sm appointment-price-list"><i class="ph ph-currency-dollar-simple appointment-list-icon"></i> Gratis </p>
+                        }
+                       
+                        <p class="status-appointment-list status-paid @appointmentResponse?.Status">@appointmentResponse?.Status</p>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" asp-fallback-test="window.jQuery" asp-fallback-src="~/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.4/jquery.validate.min.js" asp-fallback-test="window.jQuery.validator" asp-fallback-src="~/jquery.validate.min.js" integrity="sha512-FOhq9HThdn7ltbK8abmGn60A/EMtEzIzv1rvuh+DqzJtSGq8BRdEN0U+j0iKEIffiw/yEtVuladk6rsG4X6Uqg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" asp-fallback-test="window.jQuery.validator.unobtrusive" asp-fallback-src="~/jquery.validate.unobtrusive.min" integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}

@@ -40,6 +40,10 @@ namespace OdontoControl.Core.DTO.AppointmentDTO
         [DataType(DataType.Time)]
         public TimeSpan? EndTime { get; set; }
 
+        [Required(ErrorMessage = "Por favor o preço é obrigatório")]
+        [RegularExpression("^\\d+$", ErrorMessage = "Apenas numeros são permitidos")]
+        public double? Price { get; set; }
+
         public string? ExamsPath { get; set; }
 
         public Appointment ToAppointment()
@@ -54,7 +58,8 @@ namespace OdontoControl.Core.DTO.AppointmentDTO
                 Status = Status.ToString(),
                 Comments = Comments,
                 AppointmentTime = AppointmentTime,
-                ExamsPath = ExamsPath
+                ExamsPath = ExamsPath,
+                Price = Price,
             };
         }
     }

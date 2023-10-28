@@ -47,20 +47,22 @@ namespace OdontoControl.Infrastructure.Repositories
 
         public async Task<Dentist?> GetDentistById(Guid? dentistID)
         {
-            return await _context.Dentists.FirstOrDefaultAsync(temp => temp.ID == dentistID);
+            return await _context.Dentists.Include(dent => dent.Manager)
+                .FirstOrDefaultAsync(temp => temp.ID == dentistID);
         }
 
         public async Task<Dentist?> UpdateDentist(Dentist dentist)
         {
-            //_context.ChangeTracker.Clear();
+            _context.ChangeTracker.Clear();
 
             Dentist? matchingDentist = await GetDentistById(dentist.ID);
 
             if (matchingDentist == null) return null;
 
+            if (dentist.PhotoPath != null) matchingDentist.PhotoPath = dentist.PhotoPath;
+
             matchingDentist.DentistName = dentist.DentistName;
             matchingDentist.PhoneNumber = dentist.PhoneNumber;
-            matchingDentist.PhotoPath = dentist.PhotoPath;
             matchingDentist.StartTime = dentist.StartTime;
             matchingDentist.EndTime = dentist.EndTime;
 
