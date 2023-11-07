@@ -54,7 +54,7 @@ namespace OdontoControl.Infrastructure.Repositories
 
         public async Task<Patient?> UpdatePatient(Patient Patient)
         {
-            //_context.ChangeTracker.Clear();
+            _context.ChangeTracker.Clear();
 
             Patient? matchingPatient = await GetPatientById(Patient.ID);
 
