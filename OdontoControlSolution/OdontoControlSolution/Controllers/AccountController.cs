@@ -173,6 +173,8 @@ namespace OdontoControl.UI.Controllers
                 }
             }
 
+            AddCssFilesHelper.AddCssFiles(controller: this, "form.css");
+
             ViewBag.NotFoundError = "Email ou senha inválidos";
 
             ModelState.AddModelError("Login", "Email ou senha inválidos");
