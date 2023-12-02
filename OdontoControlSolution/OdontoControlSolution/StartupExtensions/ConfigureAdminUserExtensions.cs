@@ -31,17 +31,24 @@ namespace OdontoControl.UI.StartupExtensions
                 await roleManager.CreateAsync(applicationRole);
             }
 
+            // Verificar se já existe um usuário admin
             string userName = _configuration["AdminUser:UserName"]!;
-            string password = _configuration["AdminUser:Password"]!;
+            var adminUser = await userManager.FindByNameAsync(userName);
 
-            if (await userManager.FindByNameAsync(userName) == null)
+            if (adminUser == null)
             {
-                var adminUser = new ApplicationUser
+                // Criar um novo usuário admin
+                adminUser = new ApplicationUser
                 {
                     UserName = userName
                 };
 
-                await userManager.CreateAsync(adminUser, password);
+                // Definir outras propriedades do usuário, se necessário
+
+                // Criar o usuário no banco de dados
+                await userManager.CreateAsync(adminUser, _configuration["AdminUser:Password"]!);
+
+                // Atribuir a função "Admin" ao usuário
                 await userManager.AddToRoleAsync(adminUser, "Admin");
             }
         }

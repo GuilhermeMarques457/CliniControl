@@ -21,7 +21,7 @@ namespace OdontoControl.Infrastructure.DbContext
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
-            
+            this.Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

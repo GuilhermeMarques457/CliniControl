@@ -77,6 +77,7 @@ namespace OdontoControl.UI.StartupExtensions
            
             services.AddDbContext<ApplicationDbContext>(options =>
             {
+                var connection = configuration.GetConnectionString("DefaultConnection");
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
                     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
