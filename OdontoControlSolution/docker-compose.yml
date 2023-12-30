@@ -5,7 +5,7 @@ services:
     image: ${DOCKER_REGISTRY-}odontocontrolui
     build:
       context: .
-      dockerfile: OdontoControlSolution/Dockerfile
+      dockerfile: OdontoControl.UI/Dockerfile
     depends_on:
       - sqlserver
   sqlserver:

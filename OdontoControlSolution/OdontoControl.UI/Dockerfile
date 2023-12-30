@@ -6,17 +6,19 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["OdontoControlSolution/OdontoControl.UI.csproj", "OdontoControlSolution/"]
+COPY ["OdontoControl.UI/OdontoControl.UI.csproj", "OdontoControl.UI/"]
 COPY ["OdontoControl.Core/OdontoControl.Core.csproj", "OdontoControl.Core/"]
 COPY ["OdontoControl.Infrastructure/OdontoControl.Infrastructure.csproj", "OdontoControl.Infrastructure/"]
-RUN dotnet restore "OdontoControlSolution/OdontoControl.UI.csproj"
+RUN dotnet restore "./OdontoControl.UI/./OdontoControl.UI.csproj"
 COPY . .
-WORKDIR "/src/OdontoControlSolution"
-RUN dotnet build "OdontoControl.UI.csproj" -c Release -o /app/build
+WORKDIR "/src/OdontoControl.UI"
+RUN dotnet build "./OdontoControl.UI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "OdontoControl.UI.csproj" -c Release -o /app/publish /p:UseAppHost=false
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./OdontoControl.UI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
