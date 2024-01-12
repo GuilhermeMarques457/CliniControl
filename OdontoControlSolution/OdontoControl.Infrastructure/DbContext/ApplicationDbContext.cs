@@ -5,6 +5,8 @@ using OdontoControl.Core.Domain.IdentityEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,7 +35,9 @@ namespace OdontoControl.Infrastructure.DbContext
             builder.Entity<Patient>().ToTable("Patients");
             builder.Entity<RequestedPatient>().ToTable("RequestedPatients");
             builder.Entity<Reminder>().ToTable("Reminders");
-         
+
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
         }
     }
 }

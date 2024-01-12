@@ -152,6 +152,8 @@ namespace OdontoControl.UI.Controllers
             {
                 ApplicationUser? user = await _userManager.FindByNameAsync(loginDTO.Email);
 
+                var isAuthenticatedAfterSignIn = User.Identity.IsAuthenticated;
+
                 if (user != null)
                 {
                     if (await _userManager.IsInRoleAsync(user, UserTypeOptions.Admin.ToString()))

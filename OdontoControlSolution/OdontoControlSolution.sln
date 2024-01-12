@@ -13,6 +13,14 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OdontoControl.UI", "OdontoControl.UI\OdontoControl.UI.csproj", "{5DDA7679-6482-4ABC-A92B-51059198A74B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kubernetes", "Kubernetes", "{487C7920-3E3D-494C-897B-142E6FED074E}"
+	ProjectSection(SolutionItems) = preProject
+		Kubernetes\config-map.yml = Kubernetes\config-map.yml
+		Kubernetes\deployment-kubernetes.yml = Kubernetes\deployment-kubernetes.yml
+		Kubernetes\mssql-deployment.yml = Kubernetes\mssql-deployment.yml
+		Kubernetes\mssql-secret.yaml = Kubernetes\mssql-secret.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -8,11 +8,11 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["OdontoControl.UI/OdontoControl.UI.csproj", "OdontoControl.UI/"]
-COPY ["OdontoControl.Core/OdontoControl.Core.csproj", "OdontoControl.Core/"]
-COPY ["OdontoControl.Infrastructure/OdontoControl.Infrastructure.csproj", "OdontoControl.Infrastructure/"]
-RUN dotnet restore "./OdontoControl.UI/./OdontoControl.UI.csproj"
-COPY . .
+COPY ["./src/OdontoControl.UI/OdontoControl.UI.csproj", "/src/OdontoControl.UI/"]
+COPY ["./src/OdontoControl.Core/OdontoControl.Core.csproj", "/src/OdontoControl.Core/"]
+COPY ["./src/OdontoControl.Infrastructure/OdontoControl.Infrastructure.csproj", "/src/OdontoControl.Infrastructure/"]
+RUN dotnet restore "/src/OdontoControl.UI/OdontoControl.UI.csproj"
+COPY ./src /src
 WORKDIR "/src/OdontoControl.UI"
 RUN dotnet build "./OdontoControl.UI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
