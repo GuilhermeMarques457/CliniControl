@@ -1,0 +1,543 @@
+.nav-container{
+    display: flex;
+}
+
+.adm-tittle {
+    font-size: 3.8rem;
+    letter-spacing: 0.3px;
+    font-weight: 500;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    justify-content: center;
+}
+
+.options-section{
+    padding: 4.8em 0;
+}
+
+.option-box {
+    box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.06);
+    padding: 2.2rem 3.6rem;
+    border: 1px solid var(--primary-color-lighter);
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.6rem;
+    height: 40rem;
+    transition: 0.5s all;
+    
+}
+
+    .option-box:hover {
+        transform: translateY(-1.5rem);
+        box-shadow: 0 3.2rem 6.4rem rgba(0, 0, 0, 0.04);
+    }
+
+.img-ilustration-box{
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ilustration-img{
+    height: 55%;
+    position: absolute;
+    
+}
+
+.info-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.buttons-box{
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.buttons-box a {
+    text-decoration: none;
+}
+
+.appointment-text-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 4.8rem;
+}
+
+.appointment-text-box p {
+    font-size: 1.5rem;
+    color: var(--dark-color-lighter);
+}
+
+.not-contacted-button-box{
+    position: relative;
+}
+
+.not-contacted-count {
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+    padding: 0.3rem;
+    box-sizing: content-box;
+    width: 1.8rem;
+    text-align: center;
+    height: 1.8rem;
+    border-radius: 50%;
+    font-size: 1.8rem;
+    background-color: var(--primary-color);
+    color: var(--white-color)
+}
+/* Content related to paid or not paid status */
+.status-paid {
+    padding: 0.6rem 1rem;
+    color: var(--white-color);
+    display: inline-block;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: 0.3s all;
+    width: 70%;
+    text-align: center;
+}
+
+.Agendado {
+    background-color: #495057;
+}
+
+.Pago {
+    background-color: #37b24d;
+}
+
+    .Pago:hover {
+        background-color: #2f9e44
+    }
+
+.Receber {
+    background-color: #ff6b6b;
+}
+
+    .Receber:hover {
+        background-color: #e03131;
+    }
+
+.Atendimento {
+    background-color: var(--primary-color);
+}
+
+.paid-not-selected {
+    background-color: transparent;
+    color: #37b24d
+}
+
+    .paid-not-selected:hover, .not-paid-not-selected:hover{
+        color: var(--white-color);
+    }
+
+.not-paid-not-selected {
+    background-color: transparent;
+    color: #ff6b6b;
+}
+
+/* Content related to daily appointments */
+
+.appointments-list-container{
+    padding: 4.2rem 0;
+}
+
+.appointment-card {
+    border: 1px solid var(--primary-color-lighter);
+    border-radius: 8px;
+    box-shadow: 0 1.6rem 3.8rem rgba(0, 0, 0, 0.06);
+    transition: 0.5s all;
+}
+
+    .appointment-card:hover {
+        cursor: pointer;
+        transform: translateY(-0.8rem);
+        box-shadow: 0 2.4rem 4.2rem rgba(0, 0, 0, 0.04);
+    }
+
+.appointment-header {
+    padding: 2.6rem 2rem;
+    background: var(--primary-light-gradient);
+}
+
+.patient-img{
+    border-radius: 50%;
+    height: 5rem;
+    width: 5rem
+}
+
+.patient-name{
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+}
+
+.patient-phone {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 1.4rem;
+    color: var(--dark-color-lighter);
+}
+
+.appointment-body{
+    padding: 3.6rem 2.4rem;
+}
+
+.appointment-data{
+    font-size: 1.2rem;
+}
+
+.appointment-icon{
+    font-size: 2rem;
+}
+
+.appointment-footer {
+    border-top: 1px solid var(--primary-color-lighter);
+    padding: 1.8rem 2.4rem;
+}
+
+.btn-send-message {
+    border: 0;
+    transition: all 0.5s;
+    cursor: pointer;
+    padding: 0.6rem 0;
+    font-size: 1.4rem;
+    background-color: transparent;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+    .btn-send-message:hover {
+        cursor: pointer;
+        color: var(--primary-color-darker);
+        
+    }
+
+.input-date-appointments {
+    position: absolute !important;
+    top: -9.5px;
+    left: 55%;
+}
+
+    .input-date-appointments.form-reminders-input {
+        left: 76.7%;
+    }
+
+.input-date-appointments input {
+    background-color: var(--primary-color-even-lighter);
+    border: 1px solid var(--primary-color-lighter);
+    height: 4rem;
+    border-radius: 7px;
+}
+
+    
+    /* Content related to requested patients */
+    .requested-patient-container {
+        padding: 4.2rem 0 8.2rem 0;
+    }
+
+.requested-patient-box {
+    background-color: var(--pure-white-color);
+    border-radius: 8px;
+    padding: 3.2rem;
+    box-shadow: 0 1.6rem 3.8rem rgba(0, 0, 0, 0.05);
+    transition: 0.5s all;
+}
+
+    .requested-patient-box:hover {
+        cursor: pointer;
+        transform: translateY(-0.4rem);
+        box-shadow: 0 2.4rem 4.2rem rgba(0, 0, 0, 0.03);
+    }
+
+
+
+.requested-patient-box {
+    font-size: 1.8rem;
+}
+
+.requested-icon{
+    font-size: 2.2rem;
+}
+
+.btn-go-whatssap {
+    text-decoration: none;
+}
+
+/* Styling releated to add an exam */
+.exams-box {
+    position: relative;
+    border: 0;
+    transition: all 0.5s;
+    cursor: pointer;
+    padding: 0.6rem 0;
+    font-size: 1.4rem;
+    background-color: transparent;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+    .exams-box:hover {
+        cursor: pointer;
+        color: var(--primary-color-darker);
+    }
+
+.input-exams {
+    width: 100%;
+    display: block;
+    cursor: pointer !important;
+    position: absolute;
+    opacity: 0
+}
+
+
+/* Styling update Appointments */
+
+.card-details-box {
+    background: var(--primary-light-gradient);
+    border-radius: 20px;
+    padding: 3.2rem 3.6rem;
+}
+
+.card-full-data-body, .appointment-update-status-box, .appointment-update-exams-box, .add-comments-box {
+    background-color: var(--white-color);
+    border-radius: 10px;
+    padding: 3.2rem 3rem;
+}
+
+.card-full-data-body, .appointment-update-details-box {
+    height: 100%;
+}
+
+.appointment-update-status-box {
+    align-items: start;
+}
+
+.card-full-data .appointment-icon {
+    font-size: 2.8rem;
+}
+
+.card-full-data p{
+    font-size: 1.2rem;
+}
+
+.img-update-box{
+    width: 15rem;
+    height: 15rem;
+    border-radius: 50%;
+}
+
+.appointment-update-exams-box {
+    height: 100%;
+}
+
+.attached-exams-box {
+    height: 10rem;
+    flex-wrap: wrap;
+}
+
+.exam-img-box{
+    overflow: hidden;
+    height: 10rem;
+}
+
+.exam-img {
+    cursor: pointer;
+    width: 100%;
+}
+
+
+/* Styling see patient details */
+
+.card-full-data-body.card-data  {
+    height: 100%;
+    background-color: transparent;
+    padding: 0;
+    
+}
+
+.card-full-data-body.card-data>:nth-child(1) {
+    height: 100%;
+}
+
+.details-card, .form-details {
+    border: 1px solid var(--primary-color);
+    border-radius: 10px !important;
+    padding: 4rem 2.8rem !important;
+    background: var(--white-gradient-theme) !important;
+}
+
+.appointment-list {
+    height: 100%;
+    border: 1px solid var(--primary-color);
+    color: var(--dark-color-lighter);
+    font-weight: bold;
+    background: var(--white-gradient-theme);
+    border-radius: 10px;
+    padding: 3.2rem 0;
+    overflow: auto;
+
+}
+
+.form-details-section {
+    background: var(--white-gradient-theme) !important;
+    padding: 0 !important;
+}
+
+.form-details-section {
+    padding: 0 !important;
+}
+
+.small-form-heading {
+    margin-bottom: 3rem;
+}
+
+.title-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+}
+
+.list-tittle-appointment {
+    margin-left: 2.8rem;
+}
+
+.appointment-item {
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 1rem;
+    padding: 1rem 2.8rem;
+    transition: 0.4s all;
+}
+
+    .appointment-item:has(:hover) {
+        box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.06);
+        background-color: var(--primary-color-lighter);
+        transform: translateY(-0.5rem);
+    }
+
+.img-appoitment-item{
+    flex-shrink: 0;
+    height: 5rem;
+    width: 5rem;
+}
+
+.appointment-entity-name {
+    color: var(--text-gray);
+    font-size: 1.4rem;
+    line-height: 1.2
+}
+
+.appointment-list-icon{
+    font-size: 2.4rem;
+}
+
+.appointment-price-list{
+    font-size: 1.2rem;
+}
+
+.status-appointment-list {
+    width: 90%;
+}
+
+.form-details {
+   
+    width: 100% !important;
+}
+
+.patient-details-card{
+    background-color: var(--white-color);
+}
+
+/* Styling reminder type radio buttons*/
+.reminder-type-radio-box {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 45%;
+}
+
+.reminder-type-radio-box label {
+    transition: 0.1s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.6rem;
+}
+
+input[type=radio]:hover {
+    cursor: pointer;
+}
+
+/* Styling reminder type */
+.reminder-type {
+    margin: 0;
+    color: var(--white-color);
+    border-radius: 4px;
+    padding: 0.6rem 1rem;
+}
+
+.Consulta_Agendada {
+    background-color: #002366; 
+}
+
+.Confirmacao_Consulta {
+    background-color: #8B0000; 
+}
+
+.Checkup_Anual {
+    background-color: #003838;
+}
+
+.Limpeza_Dental {
+    background-color: #2E0854;
+}
+
+.Tratamento_Em_Andamento {
+    background-color: #004d00; 
+}
+
+.Pagamento {
+    background-color: #8B4500; 
+}
+
+.Reposicao_Produtos_Dentarios {
+    background-color: #4B0082; 
+}
+
+.Aniversario {
+    background-color: #8B008B; 
+}
+
+.Resultados_Exames {
+    background-color: #008B8B; 
+}
+
+.Aniversario_Tratamento {
+    background-color: #8B8B00; 
+}
+
+.Higiene_Bucal {
+    background-color: #2F4F4F; 
+}
+
+.Campanhas_Promocoes {
+    background-color: #8B0000; 
+}
+
+.Vacinacao {
+    background-color: #8B4513;
+}
+
+.Atualizacao_Dados {
+    background-color: #006400; 
+}

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dentist-web-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dentist-web-app
+  template:
+    metadata:
+      labels:
+        app: dentist-web-app
+    spec:
+      containers:
+        - name: dentist-web-app-container
+          image: guimarkes457/odonto-control:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80
+          env:
+            - name: ConnectionStrings_DefaultConnection
+              value: "Server=sql-server-dentist;Database=CliniControlDb;User Id=sa;Password=#Gui19982014;MultipleActiveResultSets=true;"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dentist-service-app
+spec:
+  selector:
+    app: dentist-web-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer

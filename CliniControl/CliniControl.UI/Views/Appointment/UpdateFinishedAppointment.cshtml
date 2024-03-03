@@ -1,0 +1,176 @@
+﻿@model AppointmentResponse
+
+@{
+    await Html.RenderPartialAsync("_ShowSuccessError");
+}
+
+
+<div class="grid grid--2--cols gap-md card-details-box">
+    <div class="flex flex-column gap-md">
+        <div class="card-full-data-body flex flex-align-center flex-spaced">
+            <div class="card-full-data-text flex flex-column gap-sm">
+                <h3 class="heading-tertiary title-decoration">Detalhes da consulta</h3>
+                <div class="card-full-data flex flex-align-center gap-sm">
+                    <i class="ph ph-user appointment-icon"></i>
+                    <p>
+                        Paciente: <span class="text-gray">@Model?.Patient?.PatientName</span>
+                    </p>
+                </div>
+                <div class="card-full-data flex flex-align-center gap-sm">
+                    <i class="ph ph-tooth appointment-icon"></i>
+                    <p>
+                        Dentista: <span class="text-gray">@Model?.Dentist?.DentistName</span>
+                    </p>
+                </div>
+                <div class="card-full-data flex flex-align-center gap-sm">
+                    <i class="ph ph-calendar-blank appointment-icon"></i>
+                    <p>
+                        Data da Consulta: <span class="text-gray">@Model?.AppointmentTime!.Value.ToString().Split(" ")[0]</span>
+                    </p>
+                </div>
+                <div class="card-full-data flex flex-align-center gap-sm">
+                    <i class="ph ph-timer appointment-icon"></i>
+                    <p>
+                        Duração: <span class="text-gray">@Model?.StartTime</span> - <span class="text-gray">@Model?.EndTime</span>
+                    </p>
+                </div>
+                <div class="card-full-data flex flex-align-center gap-sm">
+                    <i class="ph ph-currency-dollar-simple appointment-icon"></i>
+                    <p>
+                        Preço: <span class="text-gray">@Model?.Price</span>
+                    </p>
+                </div>
+                <div class="card-full-data flex flex-align-center gap-sm">
+                    <i class="ph ph-stethoscope appointment-icon"></i>
+                    <p>
+                        Prodedimento: <span class="text-gray">@Model?.ProcedureType</span>
+                    </p>
+                </div>
+                <div class="card-full-data flex flex-align-center gap-sm">
+                    <i class="ph ph-chat-circle-dots appointment-icon"></i>
+                    <p>
+                        Comentários: <span class="text-gray">@(Model?.Comments != null ? Model?.Comments : "Não há comentarios a essa consulta")</span>
+                    </p>
+                </div>
+                <div class="card-full-data flex flex-align-center gap-sm">
+                    <i class="ph ph-info appointment-icon"></i>
+                    <p>
+                        Status: <span class="text-gray">@Model?.Status</span>
+                    </p>
+                </div>
+            </div>
+            <div class="patient-img-update-box img-responsive-box img-responsive-box-width">
+                <img src="@Model?.Patient?.PhotoPath">
+            </div>
+        </div>
+        <div class="add-comments-box">
+            <h3 class="heading-tertiary title-decoration">Comentários</h3>
+            <form asp-action="UpdateFinishedAppointment" asp-controller="Appointment" method="post">
+                <div class="input-box">
+                    <i class="ph ph-chat-circle-dots input-icon"></i>
+                    <label class="form-label element-hidden" asp-for="Comments">Comentários</label>
+                    <textarea class="form-input" asp-for="Comments"></textarea>
+
+                    <span class="input-decoration"></span>
+                </div>
+                <div class="input-validation-message-box">
+                    <span asp-validation-for="Comments" class="validate-message"></span>
+                </div>
+                <div class="buttons-box">
+                    <button class="btn-form btn-send">Comentar <i class="ph ph-chat-dots"></i></button>
+                    <button class="btn-form btn-reset" type="reset">Limpar <i class="ph ph-broom"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="appointment-update-details-box flex flex-column gap-md">
+        <div class="appointment-update-status-box flex flex-spaced">
+            <h3 class="heading-tertiary title-decoration">Detalhes do pagamento</h3>
+            @if (Model?.Status == AppointmentStatusOptions.Receber.ToString())
+            {
+                <button class="btn-warning-secondary btn-option btn-modal">Pagar <i class="ph ph-wallet"></i></button>
+                <p class="hidden item-name">@Model?.Patient?.PatientName</p>
+                <p class="hidden item-id">@Model?.ID</p>
+            }
+            else if (Model?.Status == AppointmentStatusOptions.Pago.ToString())
+            {
+                <span class="btn-success-secondary btn-option">Pago <i class="ph ph-check"></i></span>
+            }
+        </div>
+        <div class="appointment-update-exams-box flex flex-column flex-spaced">
+            <div class="flex flex-column gap-md">
+                <h3 class="heading-tertiary title-decoration">Exames anexados</h3>
+                <div class="attached-exams-box grid grid--5--cols gap-md">
+                    
+                    @if (Model?.ExamsPathList != null)
+                    {
+                        @foreach (var exams in Model.ExamsPathList)
+                        {
+                            <div class="exam-img-box">
+                                <img src="@exams" alt="Exame do paciente anexado" class="exam-img open-simple-modal" />
+                            </div>
+                            
+                        }
+
+                    }
+                    else
+                    {
+                        <p>Não ha exames cadastrados nessa consuta</p>
+                    }
+                </div>
+            </div>
+
+            <div class="exams-box flex flex-align-center gap-sm">
+                <form asp-action="AddExamToAppointment"
+                      asp-controller="Appointment"
+                      asp-route-appointmentID="@Model?.ID"
+                      enctype="multipart/form-data"
+                      method="post"
+                      class="form-file">
+                    <input class="input-exams" name="fileName" type="file">
+                    <div class="flex flex-align-center gap-sm">
+                        <i class="ph ph-chat-text appointment-icon"></i> Anexar Exames
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Modal Pay *@
+<div class="modal hidden">
+    <h3 class="subheading modal-heading mg-bt-bg">Confirmar Pagamento?</h3>
+    <p class="modal-message">
+        O pagamento foi realmente realizado por
+    </p>
+    <p class="modal-info">Ao realizar o pagamento não será possível desfazer ação.</p>
+    <div class="flex flex-align-center modal-box gap-md mg-tp-md">
+        <button class="close-modal mg-rg-sm">Manter</button>
+        <form asp-action="ChangeAppoitmentStatus" asp-controller="Appointment" asp-route-appointmentID="@Model?.ID" asp-route-appointmentNewStatus="Pago" method="post" class="form-modal">
+            <button type="submit" class="btn-modal-item btn-success-secondary btn-option"><i class="ph ph-coin"></i>Pagar</button>
+        </form>
+    </div>
+</div>
+<div class="overlay element-hidden"></div>
+
+
+@* Modal Image *@
+<div class="modal simple-modal hidden hidden-simple">
+    <div class="simple-modal-box">
+        <form asp-action="DeleteAttachment" asp-controller="Appointment" method="post" class="form-delete-image">
+            <input name="AppointmentID" value="@Model?.ID" class="hidden">
+            <button class="btn-delete-simple-modal btn-warning btn-option">Deletar Anexo <i class="ph ph-trash-simple"></i></button>
+        </form>
+    </div>
+    <button class="btn-option btn-default close-simple-modal mg-rg-sm"><i class="ph ph-x"></i></button>
+</div>
+<div class="overlay overlay-simple element-hidden"></div>
+
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" asp-fallback-test="window.jQuery" asp-fallback-src="~/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.4/jquery.validate.min.js" asp-fallback-test="window.jQuery.validator" asp-fallback-src="~/jquery.validate.min.js" integrity="sha512-FOhq9HThdn7ltbK8abmGn60A/EMtEzIzv1rvuh+DqzJtSGq8BRdEN0U+j0iKEIffiw/yEtVuladk6rsG4X6Uqg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" asp-fallback-test="window.jQuery.validator.unobtrusive" asp-fallback-src="~/jquery.validate.unobtrusive.min" integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}

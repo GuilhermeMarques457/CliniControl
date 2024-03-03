@@ -1,0 +1,5 @@
+Receba novos clientes
+
+Entre em contato com os clientes novos para agendamento do paciente
+
+obs: Novos clientes são obtidos pelo formulário que fica na pagina de marketing

@@ -1,0 +1,5 @@
+Agende consultas
+
+Agende consultas para seus clientes com os dentistas
+
+obs: o gerenciamento de horarios ja é feito pelo sistema, não precisa se preocupar

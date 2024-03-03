@@ -1,0 +1,72 @@
+﻿
+<h1 class="adm-tittle item-with-icon">Painel do Gerenciador <i class="ph ph-key"></i></h1>
+
+@{
+    await Html.RenderPartialAsync("_ShowSuccessError");
+}
+
+
+<section class="options-section grid-layout grid--2--cols">
+    <div class="option-box">
+        <div class="img-ilustration-box">
+            <img src="~/imgs/clinic-ilustration.svg" alt="Ilustração de uma cliníca" class="ilustration-img"/>
+        </div>
+        <div class="info-box">
+            <h3 class="subheading title-decoration ">Profissionais</h3>
+            <p class="commom-text">Utilizar essas ações quando quiser cadastrar novos profissionais atrelados a essa cliníca e gerenciar os já existentes.</p>
+            <div class="buttons-box">
+                <a class="btn-full" asp-controller="Dentist" asp-action="NewDentist">Novo Profissional <i class="ph ph-tooth"></i></a>
+                <a class="btn btn-option btn-default-secondary" asp-controller="Dentist" asp-action="ListDentists">Listar <i class="ph ph-clipboard-text"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="option-box">
+        <div class="img-ilustration-box">
+            <img src="~/imgs/patient-ilustration.svg" alt="Ilustração de um paciente" class="ilustration-img" />
+        </div>
+        <div class="info-box">
+            <h3 class="subheading title-decoration">Pacientes</h3>
+            <p class="commom-text">Utilizar essas ações quando quiser cadastrar novos pacientes e gerenciar os já existentes.</p>
+            <div class="buttons-box">
+                <div class="not-contacted-button-box">
+                    <span class="not-contacted-count">@ViewBag.NotContactedPatientsCount</span>
+                    <a class="btn-outline" asp-controller="Patient" asp-action="NotContactedPatients">Requisições <i class="ph ph-folder-user"></i></a>
+                </div>
+                <a class="btn-full" asp-controller="Patient" asp-action="NewPatient">Novo Paciente <i class="ph ph-user-plus"></i></a>
+                <a class="btn btn-option btn-default-secondary" asp-controller="Patient" asp-action="ListPatients">Listar <i class="ph ph-clipboard-text"></i></a>
+               
+               
+            </div>
+        </div>
+    </div>
+    <div class="option-box">
+        <div class="img-ilustration-box">
+            <img src="~/imgs/appointment-ilustration.svg" alt="Ilustração de um calendario" class="ilustration-img" />
+        </div>
+        <div class="info-box">
+            <h3 class="subheading title-decoration">Atividades</h3>
+            <p class="commom-text">Utilizar essas ações quando quiser gerenciar as atividades diárias.</p>
+            <div class="buttons-box">
+                <div class="not-contacted-button-box">
+                    <span class="not-contacted-count">@ViewBag.NotFinishedReminders</span>
+                    <a class="btn-outline" asp-controller="Reminder" asp-action="ListReminders">Lembretes <i class="ph ph-notepad"></i></a>
+                </div>
+                <a class="btn-full" asp-controller="Home" asp-action="Daily">Diário <i class="ph ph-book-bookmark"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="option-box">
+        <div class="img-ilustration-box">
+            <img src="~/imgs/daily-ilustration.svg" alt="Ilustração de um diario" class="ilustration-img" />
+        </div>
+        <div class="info-box">
+            <h3 class="subheading title-decoration">Agendar Consulta</h3>
+            <p class="commom-text">Utilizar essas ações quando quiser agendar uma consulta ou gerenciar as já existentes.</p>
+            <div class="buttons-box">
+                <a class="btn btn-full" asp-action="NewAppointment" asp-controller="Appointment" asp-route-PatientOrDentistID="0">Agendar Consulta</a>
+                <a class="btn btn-option btn-default-secondary" asp-controller="Appointment" asp-action="ListAppointments">Listar <i class="ph ph-clipboard-text"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+

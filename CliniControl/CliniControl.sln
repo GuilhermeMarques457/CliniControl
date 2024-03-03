@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7449A695-72E4-41D7-9661-19C7C5CE97F2}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{406D55AF-87D5-47C3-A99B-04F4F1EEB60D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kubernetes", "Kubernetes", "{487C7920-3E3D-494C-897B-142E6FED074E}"
+	ProjectSection(SolutionItems) = preProject
+		Kubernetes\config-map.yml = Kubernetes\config-map.yml
+		Kubernetes\deployment-kubernetes.yml = Kubernetes\deployment-kubernetes.yml
+		Kubernetes\mssql-deployment.yml = Kubernetes\mssql-deployment.yml
+		Kubernetes\mssql-secret.yaml = Kubernetes\mssql-secret.yaml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CliniControl.UI", "CliniControl.UI\CliniControl.UI.csproj", "{2D984A9E-A202-4215-8DD3-2E57FBF9B738}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CliniControl.Core", "CliniControl.Core\CliniControl.Core.csproj", "{1C19B103-DFD6-46E6-90B4-72BEDDDCC816}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CliniControl.Infrastructure", "CliniControl.Infrastructure\CliniControl.Infrastructure.csproj", "{239E11FC-28DB-4DFA-85FD-FD890B438112}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{406D55AF-87D5-47C3-A99B-04F4F1EEB60D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{406D55AF-87D5-47C3-A99B-04F4F1EEB60D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{406D55AF-87D5-47C3-A99B-04F4F1EEB60D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{406D55AF-87D5-47C3-A99B-04F4F1EEB60D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D984A9E-A202-4215-8DD3-2E57FBF9B738}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D984A9E-A202-4215-8DD3-2E57FBF9B738}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D984A9E-A202-4215-8DD3-2E57FBF9B738}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D984A9E-A202-4215-8DD3-2E57FBF9B738}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C19B103-DFD6-46E6-90B4-72BEDDDCC816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C19B103-DFD6-46E6-90B4-72BEDDDCC816}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C19B103-DFD6-46E6-90B4-72BEDDDCC816}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C19B103-DFD6-46E6-90B4-72BEDDDCC816}.Release|Any CPU.Build.0 = Release|Any CPU
+		{239E11FC-28DB-4DFA-85FD-FD890B438112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{239E11FC-28DB-4DFA-85FD-FD890B438112}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{239E11FC-28DB-4DFA-85FD-FD890B438112}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{239E11FC-28DB-4DFA-85FD-FD890B438112}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2D984A9E-A202-4215-8DD3-2E57FBF9B738} = {7449A695-72E4-41D7-9661-19C7C5CE97F2}
+		{1C19B103-DFD6-46E6-90B4-72BEDDDCC816} = {7449A695-72E4-41D7-9661-19C7C5CE97F2}
+		{239E11FC-28DB-4DFA-85FD-FD890B438112} = {7449A695-72E4-41D7-9661-19C7C5CE97F2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {189F74A6-824D-4F47-9B60-6F8AA826A7A2}
+	EndGlobalSection
+EndGlobal
